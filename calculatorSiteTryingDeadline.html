@@ -299,16 +299,12 @@
 <script>
 	/*! jquery-dateformat 28-04-2018 */
 	//	var DateFormat={};!function(e){var I=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],O=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],v=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],w=["January","February","March","April","May","June","July","August","September","October","November","December"],a={Jan:"01",Feb:"02",Mar:"03",Apr:"04",May:"05",Jun:"06",Jul:"07",Aug:"08",Sep:"09",Oct:"10",Nov:"11",Dec:"12"},u=/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.?\d{0,3}[Z\-+]?(\d{2}:?\d{2})?/;DateFormat.format=function(){function o(e){return a[e]||e}function i(e){var a,r,t,n,s,o=e,i="";return-1!==o.indexOf(".")&&(o=(n=o.split("."))[0],i=n[n.length-1]),3===(s=o.split(":")).length?(a=s[0],r=s[1],t=s[2].replace(/\s.+/,"").replace(/[a-z]/gi,""),{time:o=o.replace(/\s.+/,"").replace(/[a-z]/gi,""),hour:a,minute:r,second:t,millis:i}):{time:"",hour:"",minute:"",second:"",millis:""}}function D(e,a){for(var r=a-String(e).length,t=0;t<r;t++)e="0"+e;return e}return{parseDate:function(e){var a,r,t={date:null,year:null,month:null,dayOfMonth:null,dayOfWeek:null,time:null};if("number"==typeof e)return this.parseDate(new Date(e));if("function"==typeof e.getFullYear)t.year=String(e.getFullYear()),t.month=String(e.getMonth()+1),t.dayOfMonth=String(e.getDate()),t.time=i(e.toTimeString()+"."+e.getMilliseconds());else if(-1!=e.search(u))a=e.split(/[T\+-]/),t.year=a[0],t.month=a[1],t.dayOfMonth=a[2],t.time=i(a[3].split(".")[0]);else switch(6===(a=e.split(" ")).length&&isNaN(a[5])&&(a[a.length]="()"),a.length){case 6:t.year=a[5],t.month=o(a[1]),t.dayOfMonth=a[2],t.time=i(a[3]);break;case 2:r=a[0].split("-"),t.year=r[0],t.month=r[1],t.dayOfMonth=r[2],t.time=i(a[1]);break;case 7:case 9:case 10:t.year=a[3];var n=parseInt(a[1]),s=parseInt(a[2]);n&&!s?(t.month=o(a[2]),t.dayOfMonth=a[1]):(t.month=o(a[1]),t.dayOfMonth=a[2]),t.time=i(a[4]);break;case 1:r=a[0].split(""),t.year=r[0]+r[1]+r[2]+r[3],t.month=r[5]+r[6],t.dayOfMonth=r[8]+r[9],t.time=i(r[13]+r[14]+r[15]+r[16]+r[17]+r[18]+r[19]+r[20]);break;default:return null}return t.time?t.date=new Date(t.year,t.month-1,t.dayOfMonth,t.time.hour,t.time.minute,t.time.second,t.time.millis):t.date=new Date(t.year,t.month-1,t.dayOfMonth),t.dayOfWeek=String(t.date.getDay()),t},date:function(a,e){try{var r=this.parseDate(a);if(null===r)return a;for(var t,n=r.year,s=r.month,o=r.dayOfMonth,i=r.dayOfWeek,u=r.time,c="",h="",l="",m=!1,y=0;y<e.length;y++){var d=e.charAt(y),f=e.charAt(y+1);if(m)"'"==d?(h+=""===c?"'":c,c="",m=!1):c+=d;else switch(l="",c+=d){case"ddd":h+=(S=i,I[parseInt(S,10)]||S),c="";break;case"dd":if("d"===f)break;h+=D(o,2),c="";break;case"d":if("d"===f)break;h+=parseInt(o,10),c="";break;case"D":h+=o=1==o||21==o||31==o?parseInt(o,10)+"st":2==o||22==o?parseInt(o,10)+"nd":3==o||23==o?parseInt(o,10)+"rd":parseInt(o,10)+"th",c="";break;case"MMMM":h+=(M=s,void 0,g=parseInt(M,10)-1,w[g]||M),c="";break;case"MMM":if("M"===f)break;h+=(k=s,void 0,p=parseInt(k,10)-1,v[p]||k),c="";break;case"MM":if("M"===f)break;h+=D(s,2),c="";break;case"M":if("M"===f)break;h+=parseInt(s,10),c="";break;case"y":case"yyy":if("y"===f)break;h+=c,c="";break;case"yy":if("y"===f)break;h+=String(n).slice(-2),c="";break;case"yyyy":h+=n,c="";break;case"HH":h+=D(u.hour,2),c="";break;case"H":if("H"===f)break;h+=parseInt(u.hour,10),c="";break;case"hh":h+=D(t=0===parseInt(u.hour,10)?12:u.hour<13?u.hour:u.hour-12,2),c="";break;case"h":if("h"===f)break;t=0===parseInt(u.hour,10)?12:u.hour<13?u.hour:u.hour-12,h+=parseInt(t,10),c="";break;case"mm":h+=D(u.minute,2),c="";break;case"m":if("m"===f)break;h+=parseInt(u.minute,10),c="";break;case"ss":h+=D(u.second.substring(0,2),2),c="";break;case"s":if("s"===f)break;h+=parseInt(u.second,10),c="";break;case"S":case"SS":if("S"===f)break;h+=c,c="";break;case"SSS":h+=D(u.millis.substring(0,3),3),c="";break;case"a":h+=12<=u.hour?"PM":"AM",c="";break;case"p":h+=12<=u.hour?"p.m.":"a.m.",c="";break;case"E":h+=(b=i,O[parseInt(b,10)]||b),c="";break;case"'":c="",m=!0;break;default:h+=d,c=""}}return h+=l}catch(e){return console&&console.log&&console.log(e),a}var b,k,p,M,g,S},prettyDate:function(e){var a,r,t,n,s;if("string"!=typeof e&&"number"!=typeof e||(a=new Date(e)),"object"==typeof e&&(a=new Date(e.toString())),r=((new Date).getTime()-a.getTime())/1e3,t=Math.abs(r),n=Math.floor(t/86400),!isNaN(n))return s=r<0?"from now":"ago",t<60?0<=r?"just now":"in a moment":t<120?"1 minute "+s:t<3600?Math.floor(t/60)+" minutes "+s:t<7200?"1 hour "+s:t<86400?Math.floor(t/3600)+" hours "+s:1===n?0<=r?"Yesterday":"Tomorrow":n<7?n+" days "+s:7===n?"1 week "+s:n<31?Math.ceil(n/7)+" weeks "+s:"more than 5 weeks "+s},toBrowserTimeZone:function(e,a){return this.date(new Date(e),a||"MM/dd/yyyy HH:mm:ss")}}}()}(),jQuery.format=DateFormat.format;
-	/*! jquery-dateformat 28-04-2018 */
- var DateTime = luxon.DateTime;
- 
+	/*! No need, because we using TimeZone DateTime - luxon */
+	var DateTime = luxon.DateTime;
+	var formatter = new Intl.NumberFormat('en');
 		
     $(function(){
-        function isDay(hours){
-           
-			
-			
-			
+        function isDay(hours){     // changing 48 hours = 2 day in screen
             if(hours < 48){
                 return "<span>" + hours + "</span> hours" ;
             } else {
@@ -316,46 +312,57 @@
             }
         }
 
-		  function CheckNight(myLocaldate,myLocalDeadline,workTime){
-           
-			console.log("Main LOCAL TIME:",myLocaldate.toISO());
-			console.log("Input Deadline TIME:",myLocalDeadline.toISO());
-			if( myLocaldate.hour < 19){ // must be less than 19
-			console.log("My local hour on the start of order:",myLocaldate.hour);
-			var tempTime = 23 - myLocaldate.hour ;
-			console.log("My time in project today",tempTime);
-			workTime -=tempTime;
+		function CheckNight(myLocaldate,myLocalDeadline,workTime){  
+			/*! Checking and changing if there night or day time.   */
+			/*! Possible ot upgrate ton checks hours in more than 30min to take to higher hour*/
 			
-			var nightSleep = 8;
-			if( workTime > 15){ //all day work 15hours
-			 nightSleep *=2; // 23:00 - 08:00 hour
-			// }
-		console.log(myLocalDeadline.hour );
-			if(myLocalDeadline.hour < 20){ //must be less than 19
-		
-		 var tempTimeSecond = 23 - myLocalDeadline.hour ;
-			 workTime -=tempTimeSecond;
-			console.log( "Done for in second day",tempTimeSecond );
-			 console.log("Work to done after second sleep:",workTime);
-			// console.log("My time in project second today",tempTime);
-			return DateTime.fromISO(myLocalDeadline.plus({ hours: workTime + nightSleep }));
+			console.log("Main LOCAL TIME:",myLocaldate.toISO());  //also must be in project non-local time
+			console.log("Input Deadline TIME:",myLocalDeadline.toISO()); //check the right showing 
+			if(workTime < 13) { 	// must done work in 2 days		
+				if( myLocaldate.hour < 19){ // must be less than 19. The end period of getting files from Customer into work
+
+					console.log("My local hour on the start of order:",myLocaldate.hour); 
+													
+					var tempTime = 23 - myLocaldate.hour ; //how much of the time project will be done after taking project on work
+					console.log("My time in project today",tempTime); 												
+					workTime -=tempTime; // worked first day					
+					
+					var nightSleep = 8;		
+					
+					console.log("Work to done after first sleep:",workTime);
+					return DateTime.fromISO(myLocalDeadline.plus({ hours: workTime + nightSleep }));
+					
+				}	else {
+						var tempTime = 24 - myLocaldate.hour ; // finding to end of a day 
+						var nightSleep = 8 + tempTime; // creating beggining of a new day
+						console.log( "After 20:00 coming order, check for night sleep",nightSleep );
+						console.log(" chekck for how much work",workTime);
+						
+						return DateTime.fromISO(myLocaldate.plus({ hours: workTime + nightSleep })); // if not at work taday going to the next day of 08:00 but not from 10 how most of work days starts
+				}
 			}
+			//add later worktime also < 36
+			if( workTime == 24){ //all day work 15hours
+				var nightSleep = 8;	
+				nightSleep *=2; // 23:00 - 08:00 hour
+											// }
+				console.log(myLocalDeadline.hour );
+				if(myLocaldate.hour < 20){ //must be less than 19
+				
+					var tempTimeSecond = 23 - myLocaldate.hour ;
+					workTime -=tempTimeSecond;
+					console.log( "Done for in second day",tempTimeSecond );
+					console.log("Work to done after second sleep:",workTime);
+					// console.log("My time in project second today",tempTime);
+					return DateTime.fromISO(myLocalDeadline.plus({ hours: workTime + nightSleep }));
+				}
 			}
-			console.log("Work to done after first sleep:",workTime);
-			return DateTime.fromISO(myLocalDeadline.plus({ hours: workTime + nightSleep }));
+				
+			return myLocalDeadline.plus({ hours: 1 });
 			}
-			else {
-			var tempTime = 24 - myLocaldate.hour ; // finding to end of a day 
-			var nightSleep = 8 + tempTime; // creating beggining of a new day
-			console.log( "After 20:00 coming order, check for night sleep",nightSleep );
-			console.log(" chekck for how much work",workTime);
-			return DateTime.fromISO(myLocaldate.plus({ hours: workTime + nightSleep })); // if not at work taday going to the next day of 08:00 but not from 10 how most of work days starts
-			}
-            return myLocalDeadline.plus({ hours: 1 });
-        }
-		
-		
-		function DeadlineDateFix(timer,hours){
+			
+		 
+		function DeadlineDate(timer,hours){
 			var increasedSuperFast ;
 			var x = timer.hour;
 			// console.log( timer);
@@ -363,77 +370,82 @@
 				x += 6;
 			//	console.log( timer);
 			//	console.log( x);
-			// timer.hour(x);
-				
-		//	 return timer.toISO();  
+			// timer.hour(x);				
+			//	 return timer.toISO();  
 			}
+			
 			if(hours == 12) {
 					x += 12;
 				
 			}	
+			
 			if(hours == 24) {
 				x += 24;
-		//	timer.plus({hours: 3});
-			}		
+			//	timer.plus({hours: 3});
+			}	
+			
 			if(hours == 36) {
 				x += 36;
 			//timer.plus({hours: 3});
-			}					
+			}			
+			
 			if(hours/24 == 2) {
 				x += 48;
 			//timer.plus({hours: 3});
 			}		
 			
-				//yr = timer.getFullYear(); 
+			//yr = timer.getFullYear(); 
 			//	timer = $.format.date(timer, "ddd dd.MM.yyyy HH:mm");
 			return 	timer ;
-        }
+        }	
+							
+				
+				
+       
+        var $d3 = $(".js-range-slider"); // js io slider 
 		
-	
-		
-		
-        var formatter = new Intl.NumberFormat('en');
-        var $d3 = $(".js-range-slider");
-        function $d3_change(myinput, myinput2){
-            var $inp = $d3;
-            var data = $inp.prop("value");
-            var pages;
+        function $d3_change(myinput, myinput2){ // when slider moves
 			
-			//var time = $.format.date(new Date(), "ddd dd.MM.yyyy HH:mm");
-				//var timeOffice = new Date(); // Creating 
-			 var  timeLocal = DateTime.local(); // Local time 
+			var $inp = $d3;
+			var data = $inp.prop("value");
+			var pages;
+				
+				
+			//var timeOffice = new Date(); // Creating 
+			var  timeLocal = DateTime.local(); // Local time 
 
 							 
 			
-            if (myinput){
-                data = myinput;
-            } else if (myinput2) {
-                data = myinput2 * 250;
-            }
-            pages = (data/250).toFixed();
-            //		console.log(data);
-            //		console.log(pages);
-            var x, y, z;
-            if (data >=250 && data <=500) {
-                x = 6; y = 12; z = 48;
-            } else if ( data >= 501 && data <= 2500 ) {
-                x = 12; y = 24; z = 72;
-            }  else if ( data >= 2501 && data <= 12500 ) {
-                x = 24; y = 48; z = 96;
-            }  else if ( data >= 12501 && data <= 15000 ) {
-                x = 24; y = 48; z = 120;
-            }  else if ( data >= 15001 && data <= 17500 ) {
-                x = 24; y = 72; z = 144;
-            }  else if ( data >= 17501 && data <= 18750 ) {
-                x = 36; y = 72; z = 168;
-            }  else if ( data >= 18751 && data <= 22500 ) {
-                x = 48; y = 96; z = 192;
-            }  else if ( data >= 22501 && data <= 25000 ) {
-                x = 48; y = 120; z = 216;
-            } else {
-                console.log("error");
-                return;
-            }
+			if (myinput){
+					data = myinput;
+				} else if (myinput2) {
+						data = myinput2 * 250;
+					}
+					
+					pages = (data/250).toFixed();
+					//		console.log(data);
+					//		console.log(pages);
+					var x, y, z;
+					if (data >=250 && data <=500) {
+					x = 6; y = 12; z = 48;
+						} else if ( data >= 501 && data <= 2500 ) {
+							x = 12; y = 24; z = 72;
+							}  else if ( data >= 2501 && data <= 12500 ) {
+								x = 24; y = 48; z = 96;
+								}  else if ( data >= 12501 && data <= 15000 ) {
+									x = 24; y = 48; z = 120;
+									}  else if ( data >= 15001 && data <= 17500 ) {
+										x = 24; y = 72; z = 144;
+										}  else if ( data >= 17501 && data <= 18750 ) {
+											x = 36; y = 72; z = 168;
+											}  else if ( data >= 18751 && data <= 22500 ) {
+												x = 48; y = 96; z = 192;
+												}  else if ( data >= 22501 && data <= 25000 ) {
+													x = 48; y = 120; z = 216;
+													} else {
+															console.log("error");
+															return;
+													}
 			
             //		$(".mcalc-row:nth-child(1) > *:nth-child(2) > *:nth-child(1) > span").text(x);
             //		$(".mcalc-row:nth-child(2) > *:nth-child(2) > *:nth-child(1) > span").text(y);
@@ -451,11 +463,14 @@
             $(".mcalc-row:nth-child(1) > *:nth-child(2) > *:nth-child(2) > span").text(formatter.format(price_1));	
             $(".mcalc-row:nth-child(2) > *:nth-child(2) > *:nth-child(2) > span").text(formatter.format(price_2));
             $(".mcalc-row:nth-child(3) > *:nth-child(2) > *:nth-child(2) > span").text(formatter.format(price_3));
-		$(".mcalc-row:nth-child(1) > *:nth-child(1) > *:nth-child(2) > span  ").text("Deadline: " + DeadlineDateFix(CheckNight(timeLocal,timeLocal.plus({ hours: x }),x),x).toFormat("ddd dd.MM.yyyy HH:mm"));
-            $("#mcalcinp-words").val(data);
+			
+				$(".mcalc-row:nth-child(1) > *:nth-child(1) > *:nth-child(2) > span  ").text("Deadline: " + DeadlineDate(CheckNight(timeLocal,timeLocal.plus({ hours: x }),x),x).toFormat("dd.MM.yyyy HH:mm"));
+            
+			$("#mcalcinp-words").val(data);
             $("#mcalcinp-pages").val(pages);
 			
         }
+		
         $d3.ionRangeSlider({
             //		min: 250,
             min: 250,
@@ -473,12 +488,9 @@
             prettify_separator: ",",
 			
 			
-            onStart: function (data) {
-						
+            onStart: function (data) {						
 			
-                $d3_change();
-			
-				
+                $d3_change();				
 				
             },
             onChange: function (data) {
@@ -492,17 +504,14 @@
                 //			}
 				 
                 $d3_change();
-				$(".irs-min").text("250 words");
-               
-	
+				$(".irs-min").text("250 words");    
             }
+			
         });
 		
         $(".irs-min").text("250 words");
 
-
         var my_slider = $d3.data("ionRangeSlider");
-
 
         var timer_1;
         $("#mcalcinp-words").on("keydown", function(evt){
@@ -522,7 +531,6 @@
             }, time);
         });
 
-
         var timer_2;
         $("#mcalcinp-pages").on("keydown", function(evt){
             var charCode = (evt.which) ? evt.which : event.keyCode;
@@ -541,13 +549,11 @@
             }, time);
 				
         });
-    });
+    });	
 	
-	
-	$(document).ready(function(){
- 
+	$(document).ready(function(){ 
 
-   $(".mcalc-inputs, .mcalc-rows, .mcalc-range").fadeIn(10);
+	$(".mcalc-inputs, .mcalc-rows, .mcalc-range").fadeIn(10); //my animation when calculator shows
   });
 
 
@@ -556,22 +562,21 @@
 
 <div id="mcalc">
 
-<button>Click to fade in boxes</button><br><br>
+	
 
-<div id="div1" style="width:80px;height:80px;display:none;background-color:red;"></div><br>
-<div id="div2" style="width:80px;height:80px;display:none;background-color:green;"></div><br>
-<div id="div3" style="width:80px;height:80px;display:none;background-color:blue;"></div>
-        <div class="mcalc-range" style="display:none">
-
+	<div id="div1" style="width:80px;height:80px;display:none;background-color:red;"></div><br>
+	<div id="div2" style="width:80px;height:80px;display:none;background-color:green;"></div><br>
+	<div id="div3" style="width:80px;height:80px;display:none;background-color:blue;"></div>
+    
+	<div class="mcalc-range" style="display:none">
         <input type="text" class="js-range-slider" name="my_range" value="">
     </div>
+	
     <div class="mcalc-rows" style="display:none">
         <div class="mcalc-row">
             <div><div>SuperFast</div><div>$0.20/word </br><span>deadline</span></div></div>
             <div><div><span></span> days</div>
-			<div>$<span>1000</span></div></div>
-	
-			
+			<div>$<span>1000</span></div></div>			
         </div>
         <div class="mcalc-row">
             <div><div>Fast</div><div>$<span>0.15</span>/word</div></div>
@@ -595,7 +600,7 @@
         </div>
        </div>
     </form>
- <input type=button value="Show Time" onclick="alert(new Date())">
-
+	
+	<input type=button value="Show Time" onclick="alert(new Date())">
 
 </div>
