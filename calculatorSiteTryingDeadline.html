@@ -303,6 +303,12 @@
 	var DateTime = luxon.DateTime;
 	var formatter = new Intl.NumberFormat('en');
 		var  timeLocal = DateTime.local(); // Local time 	
+		var  timeKiev = DateTime.local().setZone('Europe/Kiev'); // Local time 	
+		console.log("CHECK KIEV TIME:",timeKiev.isValid);
+		console.log("CHECK KIEV TIME:",timeKiev.toFormat("D,hh:mm, a, z"));
+		timeLondon = timeKiev.setZone('Europe/London'); // Local time 	
+		console.log("CHECK LONDON TIME:",timeLondon.isValid);
+		console.log("CHECK LONDON TIME:",timeLondon.toFormat("D,hh:mm, a, z"));
 	
     $(function(){
         function isDay(hours){     // changing 48 hours = 2 day in screen
