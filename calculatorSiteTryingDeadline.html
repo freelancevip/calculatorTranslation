@@ -121,7 +121,7 @@
         border-radius: 5px;
         font-weight: 500;
         color: #333;
-		
+		//clear: both;
     }
 	
     .mcalc-row > *:nth-child(1) {
@@ -302,51 +302,123 @@
 	/*! No need, because we using TimeZone DateTime - luxon */
 	var DateTime = luxon.DateTime;
 	var formatter = new Intl.NumberFormat('en');
-		
+		var  timeLocal = DateTime.local(); // Local time 	
+	
     $(function(){
         function isDay(hours){     // changing 48 hours = 2 day in screen
             if(hours < 48){
-                return "<span>" + hours + "</span> hours" ;
+                return "<span> work:</span><br><span>" + hours + "</span> hours" ;
             } else {
-                return "<span>" + (hours/24) + "</span> days";
+               return "<span> work:</span><br><span>" + Math.trunc(hours/24)+ "</span> days &<br>" + checkIfnullHour(hours);
+				//return hours;
             }
         }
+		
+		function checkIfnullHour(hours){
+			if ((hours%24) == 0){
+				return "";
+			} else {			
+				return "<span>" + (hours%24) + "</span> hours";
+			}
+		}
 
-		function CheckNight(myLocaldate,myLocalDeadline,workTime){  
+		function CheckNight(myLocaldate,workTime,localTime,recognizeWichRow){  
+			
 			/*! Checking and changing if there night or day time.   */
 			/*! Possible ot upgrate ton checks hours in more than 30min to take to higher hour*/
+			var night = false;
+			console.log("*************",recognizeWichRow );
 			
-			console.log("Main LOCAL TIME:",myLocaldate.toISO());  //also must be in project non-local time
-			console.log("Input Deadline TIME:",myLocalDeadline.toISO()); //check the right showing 
-			if(workTime < 13) { 	// must done work in 2 days		
-				if( myLocaldate.hour < 19){ // must be less than 19. The end period of getting files from Customer into work
-
-					console.log("My local hour on the start of order:",myLocaldate.hour); 
-													
-					var tempTime = 23 - myLocaldate.hour ; //how much of the time project will be done after taking project on work
-					console.log("My time in project today",tempTime); 												
-					workTime -=tempTime; // worked first day					
-					
-					var nightSleep = 8;		
-					
-					console.log("Work to done after first sleep:",workTime);
-					return DateTime.fromISO(myLocalDeadline.plus({ hours: workTime + nightSleep }));
-					
-				}	else {
-						var tempTime = 24 - myLocaldate.hour ; // finding to end of a day 
-						var nightSleep = 8 + tempTime; // creating beggining of a new day
-						console.log( "After 20:00 coming order, check for night sleep",nightSleep );
-						console.log(" chekck for how much work",workTime);
+			console.log("Get in function workTime", workTime);
+			var DateDeadline = myLocaldate;
+			
+			console.log("DeadLine on start: ",DateDeadline.toFormat("dd.MM.yyyy HH:mm"));
+				console.log("ALOOOOOOOO", workTime);	
+			console.log("LOCAL TIME:",myLocaldate.toFormat("dd.MM.yyyy HH:mm"));  //also must be in project non-local time
+			
+			//console.log("Input Deadline TIME:",myLocalDeadline.toFormat("dd.MM.yyyy HH:mm")); //check the right showing 
+			
+			if( workTime > 0 ) { 	// checks if there have time to work	
+				if ( myLocaldate.hour < 8  ){ // when order in night
+					workTime += 8 - myLocaldate.hour;
+							console.log("If ordered in ",myLocaldate.toFormat("dd.MM.yyyy HH:mm"), "The worrktime time in end of a day", workTime);
 						
-						return DateTime.fromISO(myLocaldate.plus({ hours: workTime + nightSleep })); // if not at work taday going to the next day of 08:00 but not from 10 how most of work days starts
 				}
+				if ( myLocaldate.hour > 19 && myLocaldate.hour < 24) { // check if it normal works ?
+				
+				night = true;
+				console.log("If ordered in 19 to 23 ",myLocaldate.toFormat("dd.MM.yyyy HH:mm"),  "The worrktime time in end of a day", workTime);
+				}
+		
+				if( myLocaldate.hour > 7 && myLocaldate.hour < 17 && workTime <= 6){ // First situation for 6 hours !!! latel do <= after function minut +- hour
+						console.log("DeadLine: ",DateDeadline.plus({ hours: workTime}).toFormat("dd.MM.yyyy HH:mm"));	
+						
+						//console.log("DeadLine CHECK: ",DateDeadline.toFormat("dd.MM.yyyy HH:mm"));
+						console.log("LOCAL CHECK: ",localTime.toFormat("dd.MM.yyyy HH:mm"));
+						var myDiffTime = DateDeadline.plus({ hours: workTime}) - localTime;
+						console.log("DIFF: ", msToTime(myDiffTime));	
+						hoursToDone(msToTime(myDiffTime),recognizeWichRow);						
+					return DateDeadline.plus({ hours: workTime});			
+						
+				}
+				if( workTime <= 216){ //second situation for 6 hours "work today & tomorrow"
+						
+						
+						console.log("My local hour on the start of order:",myLocaldate.toFormat("dd.MM.yyyy HH:mm")); 													
+						if( night ) {						
+						console.log( "Oh , it va bight added + 9 hou, check",DateDeadline.toFormat("dd.MM.yyyy HH:mm") );
+						}
+						var tempTime = 23 - myLocaldate.hour ; //how much of the time project will be done after taking project on work
+						
+						console.log("My vork time in project today: ",tempTime); 
+						
+						//DateDeadline = plusHourDateTime(DateDeadline,tempTime);// adding first day work
+						DateDeadline = DateDeadline.plus({ hours: tempTime});
+						console.log( "vat ve have add ", DateDeadline.toFormat("dd.MM.yyyy HH:mm") );
+						workTime -=tempTime; // work to done next day
+						console.log("Work count after first1",workTime);
+						
+						if ( workTime > 0){
+							DateDeadline = DateDeadline.plus({ hours: 9 });	
+							console.log( "My Hour deadline changed after aditional night",DateDeadline.toFormat("dd.MM.yyyy HH:mm") );
+							//workTime += 9;
+							console.log("Work count after night",workTime);
+							return CheckNight(DateDeadline,workTime,localTime,recognizeWichRow);
+							//return DateDeadline;
+						}else {
+						DateDeadline = DateDeadline.plus({ hours: workTime});	
+						console.log("DeadLine CHECK: ",DateDeadline.toFormat("dd.MM.yyyy HH:mm"));
+						console.log("LOCAL CHECK: ",localTime.toFormat("dd.MM.yyyy HH:mm"));
+						var myDiffTime = DateDeadline - localTime;
+						hoursToDone(msToTime(myDiffTime),recognizeWichRow);
+						
+						
+						
+						return DateDeadline;
+						}
+					
+						console.log("Work to done after first sleep:",workTime);
+						
+						return DateDeadline;
+						
+				} else {
+						
+						console.log("Some work time goes wrong",workTime);
+						
+						return myLocaldate.plus({ hours: workTime + nightSleep }); // if not at work today going to the next day of 08:00 but not from 10 how most of work days starts
+				}
+			}else {
+			return DateDeadline;
 			}
+			
+			
 			//add later worktime also < 36
 			if( workTime == 24){ //all day work 15hours
 				var nightSleep = 8;	
+				console.log("My local hour on the start of order:",myLocaldate.hour); 
 				nightSleep *=2; // 23:00 - 08:00 hour
 											// }
-				console.log(myLocalDeadline.hour );
+				console.log(myLocaldate.hour );
 				if(myLocaldate.hour < 20){ //must be less than 19
 				
 					var tempTimeSecond = 23 - myLocaldate.hour ;
@@ -354,56 +426,72 @@
 					console.log( "Done for in second day",tempTimeSecond );
 					console.log("Work to done after second sleep:",workTime);
 					// console.log("My time in project second today",tempTime);
-					return DateTime.fromISO(myLocalDeadline.plus({ hours: workTime + nightSleep }));
+					return DateTime.fromISO(myLocaldate.plus({ hours: workTime + nightSleep }));
 				}
 			}
-				
-			return myLocalDeadline.plus({ hours: 1 });
-			}
-			
-		 
-		function DeadlineDate(timer,hours){
-			var increasedSuperFast ;
-			var x = timer.hour;
-			// console.log( timer);
-			if(hours == 6) {
-				x += 6;
-			//	console.log( timer);
-			//	console.log( x);
-			// timer.hour(x);				
-			//	 return timer.toISO();  
-			}
-			
-			if(hours == 12) {
-					x += 12;
-				
-			}	
-			
-			if(hours == 24) {
-				x += 24;
-			//	timer.plus({hours: 3});
-			}	
-			
-			if(hours == 36) {
-				x += 36;
-			//timer.plus({hours: 3});
-			}			
-			
-			if(hours/24 == 2) {
-				x += 48;
-			//timer.plus({hours: 3});
+			if(workTime < 1){
+				return CheckNight(DateDeadline,workTime,localTime,recognizeWichRow);
+				}
+			return myLocaldate.plus({ hours: 1 });
+		}
+		
+		function hoursToDone (myRowNumber,myrecognise){
+			switch (myrecognise) {				
+				case 1:
+					$(".mcalc-row:nth-child(1) > *:nth-child(2) > *:nth-child(1)").html(isDay(myRowNumber));	
+					break;
+				case 2:
+					$(".mcalc-row:nth-child(2) > *:nth-child(2) > *:nth-child(1)").html(isDay(myRowNumber));
+					break;
+				case 3:
+					$(".mcalc-row:nth-child(3) > *:nth-child(2) > *:nth-child(1)").html(isDay(myRowNumber));
+					break;
+				}				
+		}
+		
+		function plusHourDateTime (dt , myhours){
+			return dt.plus({hours: myhours});			
+		}
+		
+		function roundoffTime(timetoRound) { // function to round of a time
+			if (timetoRound.minute < 30){
+					console.log( "My time before round off <30:",timetoRound.toFormat("dd.MM.yyyy HH:mm") );
+					return timetoRound.set({ minute: 0 })
+				} else {
+				if (timetoRound.minute > 30){
+						console.log( "My time before round off >30:",timetoRound.toFormat("dd.MM.yyyy HH:mm") );
+						
+						return timetoRound.plus ({ minute: 60 - timetoRound.minute })
+					}
+		
 			}		
+		}
 			
-			//yr = timer.getFullYear(); 
-			//	timer = $.format.date(timer, "ddd dd.MM.yyyy HH:mm");
-			return 	timer ;
-        }	
-							
+		
+		
+		function msToTime(millisec) { // function to conver miliseconds to hour minutes and seconds
+		
+			var seconds = (millisec / 1000).toFixed(1);
+
+			var minutes = (millisec / (1000 * 60)).toFixed(1);
+
+			var hours = (millisec / (1000 * 60 * 60)).toFixed(1);
+
+			
+
+			if (seconds < 60) {
+					return seconds;
+				} else if (minutes < 60) {
+					return minutes ;
+				} else {
+					return Math.trunc(hours);
+				} 
+		}
+		
 				
 				
        
-        var $d3 = $(".js-range-slider"); // js io slider 
-		
+        var $d3 = $(".js-range-slider"); // js io slider 		
         function $d3_change(myinput, myinput2){ // when slider moves
 			
 			var $inp = $d3;
@@ -412,7 +500,7 @@
 				
 				
 			//var timeOffice = new Date(); // Creating 
-			var  timeLocal = DateTime.local(); // Local time 
+		
 
 							 
 			
@@ -451,9 +539,7 @@
             //		$(".mcalc-row:nth-child(2) > *:nth-child(2) > *:nth-child(1) > span").text(y);
             //		$(".mcalc-row:nth-child(3) > *:nth-child(2) > *:nth-child(1) > span").text(z);
            
-			$(".mcalc-row:nth-child(1) > *:nth-child(2) > *:nth-child(1)").html(isDay(x));			 
-            $(".mcalc-row:nth-child(2) > *:nth-child(2) > *:nth-child(1)").html(isDay(y));
-            $(".mcalc-row:nth-child(3) > *:nth-child(2) > *:nth-child(1)").html(isDay(z));
+		
 			
 			
             var price_1 = (data * 0.2).toFixed();
@@ -464,12 +550,23 @@
             $(".mcalc-row:nth-child(2) > *:nth-child(2) > *:nth-child(2) > span").text(formatter.format(price_2));
             $(".mcalc-row:nth-child(3) > *:nth-child(2) > *:nth-child(2) > span").text(formatter.format(price_3));
 			
-				$(".mcalc-row:nth-child(1) > *:nth-child(1) > *:nth-child(2) > span  ").text("Deadline: " + DeadlineDate(CheckNight(timeLocal,timeLocal.plus({ hours: x }),x),x).toFormat("dd.MM.yyyy HH:mm"));
+			$(".mcalc-row:nth-child(1) > *:nth-child(1) > *:nth-child(2) > span  ").text("Deadline: " + CheckNight(roundoffTime(timeLocal),x, roundoffTime(timeLocal), 1).toFormat("D,hh:mm, a, z")); // in future add another UTC time
+           $(".mcalc-row:nth-child(2) > *:nth-child(1) > *:nth-child(2) > span  ").text("Deadline: " + CheckNight(roundoffTime(timeLocal),y, roundoffTime(timeLocal), 2).toFormat("D,hh:mm, a, z")); // in future add another UTC time
+           $(".mcalc-row:nth-child(3) > *:nth-child(1) > *:nth-child(2) > span  ").text("Deadline: " + CheckNight(roundoffTime(timeLocal),z, roundoffTime(timeLocal), 3).toFormat("D,hh:mm, a, z")); // in future add another UTC time
             
+		//$(".mcalc-row:nth-child(1) > *:nth-child(2) > *:nth-child(1)").html(hoursToDone());		
+			//$(".mcalc-row:nth-child(1) > *:nth-child(2) > *:nth-child(1)").html(isDay(x));					
+        //  $(".mcalc-row:nth-child(2) > *:nth-child(2) > *:nth-child(1)").html(isDay(y));
+		//	$(".mcalc-row:nth-child(3) > *:nth-child(2) > *:nth-child(1)").html(isDay(z));
+			
+			
+			
 			$("#mcalcinp-words").val(data);
             $("#mcalcinp-pages").val(pages);
 			
         }
+		
+		
 		
         $d3.ionRangeSlider({
             //		min: 250,
@@ -574,20 +671,46 @@
 	
     <div class="mcalc-rows" style="display:none">
         <div class="mcalc-row">
-            <div><div>SuperFast</div><div>$0.20/word </br><span>deadline</span></div></div>
+            <div>
+				<div>
+					SuperFast
+				</div>
+				
+				<div>
+					$0.20/word </br><span>deadline</span>
+				</div>
+				
+			</div>
+			
+            <div>
+				<div>
+					<span></span> days
+				</div>
+				<div>
+					$<span>1000</span>
+				</div>
+			</div>			
+        </div>
+        <div class="mcalc-row">           
+			<div>
+				<div>
+					Fast
+				</div>
+				<div>
+					$0.15/word</br><span>deadline</span>
+				</div>
+			</div>
+            <div>
+				<div><span></span> days</div>
+				<div>$<span>1000</span></div>
+			</div>		
+		</div>
+        <div class="mcalc-row">           
+			<div><div>Economy</div><div>$0.10/word</br><span>deadline</span></div></div>
             <div><div><span></span> days</div>
-			<div>$<span>1000</span></div></div>			
-        </div>
-        <div class="mcalc-row">
-            <div><div>Fast</div><div>$<span>0.15</span>/word</div></div>
-            <div><div><span></span> days</div><div>$<span>1000</span></div></div>
-        </div>
-        <div class="mcalc-row">
-            <div><div>Economy</div><div>$<span>0.10</span>/word</div></div>
-            <div><div><span></span> days</div><div>$<span>1000</span></div></div>
-        </div>
-    </div>
-
+			<div>$<span>1000</span></div>
+			</div>	
+		</div>
     <form action="" class="mcalc-inputs" style="display:none">
        <div>
         <div>
