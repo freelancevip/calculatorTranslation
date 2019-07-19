@@ -281,7 +281,17 @@
             top: 0;
         }
     }
+	 
+	#row-time-zone {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		
+	}
 	
+	
+		
 	.ease-in i { 
   animation-timing-function: ease-in; 
 }
@@ -291,6 +301,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.0/js/ion.rangeSlider.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/luxon@1.3.3/build/global/luxon.min.js"></script>
+
 
 
 
@@ -663,8 +674,24 @@
 </head>
 
 <div id="mcalc">
+	<div id="row-time-zone">
 
-	
+		<h1>Wich time zone:  </h1>
+		<div>
+		  <div class="select-time-zone">
+			<select name="slct" id="slct">
+			  <option selected value="5">Your time Zone</option>
+			  <option value="1">Europe/London</option>
+			  <option value="2">America/New_York</option>
+			  <option value="3">Asia/Qatar</option>
+			</select>
+		  </div>
+		</div>  
+		<div>
+		  <h2> there will be time online</h2>
+		</div> 
+	</div> 
+
 
 	<div id="div1" style="width:80px;height:80px;display:none;background-color:red;"></div><br>
 	<div id="div2" style="width:80px;height:80px;display:none;background-color:green;"></div><br>
