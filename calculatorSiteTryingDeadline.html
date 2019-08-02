@@ -281,7 +281,14 @@
             top: 0;
         }
     }
-	
+	 
+	#row-time-zone {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;		
+	}	
+		
 	.ease-in i { 
   animation-timing-function: ease-in; 
 }
@@ -296,26 +303,28 @@
 
 
 
+
 <script>
 	/*! jquery-dateformat 28-04-2018 */
 	//	var DateFormat={};!function(e){var I=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],O=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],v=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],w=["January","February","March","April","May","June","July","August","September","October","November","December"],a={Jan:"01",Feb:"02",Mar:"03",Apr:"04",May:"05",Jun:"06",Jul:"07",Aug:"08",Sep:"09",Oct:"10",Nov:"11",Dec:"12"},u=/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.?\d{0,3}[Z\-+]?(\d{2}:?\d{2})?/;DateFormat.format=function(){function o(e){return a[e]||e}function i(e){var a,r,t,n,s,o=e,i="";return-1!==o.indexOf(".")&&(o=(n=o.split("."))[0],i=n[n.length-1]),3===(s=o.split(":")).length?(a=s[0],r=s[1],t=s[2].replace(/\s.+/,"").replace(/[a-z]/gi,""),{time:o=o.replace(/\s.+/,"").replace(/[a-z]/gi,""),hour:a,minute:r,second:t,millis:i}):{time:"",hour:"",minute:"",second:"",millis:""}}function D(e,a){for(var r=a-String(e).length,t=0;t<r;t++)e="0"+e;return e}return{parseDate:function(e){var a,r,t={date:null,year:null,month:null,dayOfMonth:null,dayOfWeek:null,time:null};if("number"==typeof e)return this.parseDate(new Date(e));if("function"==typeof e.getFullYear)t.year=String(e.getFullYear()),t.month=String(e.getMonth()+1),t.dayOfMonth=String(e.getDate()),t.time=i(e.toTimeString()+"."+e.getMilliseconds());else if(-1!=e.search(u))a=e.split(/[T\+-]/),t.year=a[0],t.month=a[1],t.dayOfMonth=a[2],t.time=i(a[3].split(".")[0]);else switch(6===(a=e.split(" ")).length&&isNaN(a[5])&&(a[a.length]="()"),a.length){case 6:t.year=a[5],t.month=o(a[1]),t.dayOfMonth=a[2],t.time=i(a[3]);break;case 2:r=a[0].split("-"),t.year=r[0],t.month=r[1],t.dayOfMonth=r[2],t.time=i(a[1]);break;case 7:case 9:case 10:t.year=a[3];var n=parseInt(a[1]),s=parseInt(a[2]);n&&!s?(t.month=o(a[2]),t.dayOfMonth=a[1]):(t.month=o(a[1]),t.dayOfMonth=a[2]),t.time=i(a[4]);break;case 1:r=a[0].split(""),t.year=r[0]+r[1]+r[2]+r[3],t.month=r[5]+r[6],t.dayOfMonth=r[8]+r[9],t.time=i(r[13]+r[14]+r[15]+r[16]+r[17]+r[18]+r[19]+r[20]);break;default:return null}return t.time?t.date=new Date(t.year,t.month-1,t.dayOfMonth,t.time.hour,t.time.minute,t.time.second,t.time.millis):t.date=new Date(t.year,t.month-1,t.dayOfMonth),t.dayOfWeek=String(t.date.getDay()),t},date:function(a,e){try{var r=this.parseDate(a);if(null===r)return a;for(var t,n=r.year,s=r.month,o=r.dayOfMonth,i=r.dayOfWeek,u=r.time,c="",h="",l="",m=!1,y=0;y<e.length;y++){var d=e.charAt(y),f=e.charAt(y+1);if(m)"'"==d?(h+=""===c?"'":c,c="",m=!1):c+=d;else switch(l="",c+=d){case"ddd":h+=(S=i,I[parseInt(S,10)]||S),c="";break;case"dd":if("d"===f)break;h+=D(o,2),c="";break;case"d":if("d"===f)break;h+=parseInt(o,10),c="";break;case"D":h+=o=1==o||21==o||31==o?parseInt(o,10)+"st":2==o||22==o?parseInt(o,10)+"nd":3==o||23==o?parseInt(o,10)+"rd":parseInt(o,10)+"th",c="";break;case"MMMM":h+=(M=s,void 0,g=parseInt(M,10)-1,w[g]||M),c="";break;case"MMM":if("M"===f)break;h+=(k=s,void 0,p=parseInt(k,10)-1,v[p]||k),c="";break;case"MM":if("M"===f)break;h+=D(s,2),c="";break;case"M":if("M"===f)break;h+=parseInt(s,10),c="";break;case"y":case"yyy":if("y"===f)break;h+=c,c="";break;case"yy":if("y"===f)break;h+=String(n).slice(-2),c="";break;case"yyyy":h+=n,c="";break;case"HH":h+=D(u.hour,2),c="";break;case"H":if("H"===f)break;h+=parseInt(u.hour,10),c="";break;case"hh":h+=D(t=0===parseInt(u.hour,10)?12:u.hour<13?u.hour:u.hour-12,2),c="";break;case"h":if("h"===f)break;t=0===parseInt(u.hour,10)?12:u.hour<13?u.hour:u.hour-12,h+=parseInt(t,10),c="";break;case"mm":h+=D(u.minute,2),c="";break;case"m":if("m"===f)break;h+=parseInt(u.minute,10),c="";break;case"ss":h+=D(u.second.substring(0,2),2),c="";break;case"s":if("s"===f)break;h+=parseInt(u.second,10),c="";break;case"S":case"SS":if("S"===f)break;h+=c,c="";break;case"SSS":h+=D(u.millis.substring(0,3),3),c="";break;case"a":h+=12<=u.hour?"PM":"AM",c="";break;case"p":h+=12<=u.hour?"p.m.":"a.m.",c="";break;case"E":h+=(b=i,O[parseInt(b,10)]||b),c="";break;case"'":c="",m=!0;break;default:h+=d,c=""}}return h+=l}catch(e){return console&&console.log&&console.log(e),a}var b,k,p,M,g,S},prettyDate:function(e){var a,r,t,n,s;if("string"!=typeof e&&"number"!=typeof e||(a=new Date(e)),"object"==typeof e&&(a=new Date(e.toString())),r=((new Date).getTime()-a.getTime())/1e3,t=Math.abs(r),n=Math.floor(t/86400),!isNaN(n))return s=r<0?"from now":"ago",t<60?0<=r?"just now":"in a moment":t<120?"1 minute "+s:t<3600?Math.floor(t/60)+" minutes "+s:t<7200?"1 hour "+s:t<86400?Math.floor(t/3600)+" hours "+s:1===n?0<=r?"Yesterday":"Tomorrow":n<7?n+" days "+s:7===n?"1 week "+s:n<31?Math.ceil(n/7)+" weeks "+s:"more than 5 weeks "+s},toBrowserTimeZone:function(e,a){return this.date(new Date(e),a||"MM/dd/yyyy HH:mm:ss")}}}()}(),jQuery.format=DateFormat.format;
 	/*! No need, because we using TimeZone DateTime - luxon */
 	var DateTime = luxon.DateTime;
 	var formatter = new Intl.NumberFormat('en');
+	
 		var  timeLocal = DateTime.local(); // Local time 	
 		var  timeKiev = DateTime.local().setZone('Europe/Kiev'); // Local time 	
 		console.log("CHECK KIEV TIME:",timeKiev.isValid);
 		console.log("CHECK KIEV TIME:",timeKiev.toFormat("D,hh:mm, a, z"));
-		timeLondon = timeKiev.setZone('Europe/London'); // Local time 	
+		timeLondon = timeLocal.setZone('Europe/London'); // London time 	
 		console.log("CHECK LONDON TIME:",timeLondon.isValid);
 		console.log("CHECK LONDON TIME:",timeLondon.toFormat("D,hh:mm, a, z"));
 	
     $(function(){
         function isDay(hours){     // changing 48 hours = 2 day in screen
             if(hours < 48){
-                return "<span> work:</span><br><span>" + hours + "</span> hours" ;
+                return "<span> work:</span><br><span>" + hours + "</span> hours<br>" ;
             } else {
-               return "<span> work:</span><br><span>" + Math.trunc(hours/24)+ "</span> days &<br>" + checkIfnullHour(hours);
+               return "<span> work:</span><br><span>" + Math.trunc(hours/24)+ "</span> days " + checkIfnullHour(hours);
 				//return hours;
             }
         }
@@ -324,11 +333,11 @@
 			if ((hours%24) == 0){
 				return "";
 			} else {			
-				return "<span>" + (hours%24) + "</span> hours";
+				return "&<br><span>" + (hours%24) + "</span> hours";
 			}
 		}
 
-		function CheckNight(myLocaldate,workTime,localTime,recognizeWichRow){  
+		function workTime_Calculating(companyLocalTime,workTime,localTime,recognizeWichRow){  
 			
 			/*! Checking and changing if there night or day time.   */
 			/*! Possible ot upgrate ton checks hours in more than 30min to take to higher hour*/
@@ -336,49 +345,48 @@
 			console.log("*************",recognizeWichRow );
 			
 			console.log("Get in function workTime", workTime);
-			var DateDeadline = myLocaldate;
+			var DateDeadline = companyLocalTime;
 			
-			console.log("DeadLine on start: ",DateDeadline.toFormat("dd.MM.yyyy HH:mm"));
-				console.log("ALOOOOOOOO", workTime);	
-			console.log("LOCAL TIME:",myLocaldate.toFormat("dd.MM.yyyy HH:mm"));  //also must be in project non-local time
+			console.log("DeadLine on start: ",DateDeadline.toFormat("dd.MM.yyyy HH:mm"));			
+			console.log("LOCAL TIME:",companyLocalTime.toFormat("dd.MM.yyyy HH:mm"));  
 			
-			//console.log("Input Deadline TIME:",myLocalDeadline.toFormat("dd.MM.yyyy HH:mm")); //check the right showing 
+			
 			
 			if( workTime > 0 ) { 	// checks if there have time to work	
-				if ( myLocaldate.hour < 8  ){ // when order in night
-					workTime += 8 - myLocaldate.hour;
-							console.log("If ordered in ",myLocaldate.toFormat("dd.MM.yyyy HH:mm"), "The worrktime time in end of a day", workTime);
+				if ( companyLocalTime.hour < 8  ){ // when order in night
+					workTime += 8 - companyLocalTime.hour;
+							console.log("If ordered in ",companyLocalTime.toFormat("dd.MM.yyyy HH:mm"), "The worrktime time in end of a day", workTime);
 						
 				}
-				if ( myLocaldate.hour > 19 && myLocaldate.hour < 24) { // check if it normal works ?
+				if ( companyLocalTime.hour > 19 && companyLocalTime.hour < 24) { // check if it normal works ?
 				
 				night = true;
-				console.log("If ordered in 19 to 23 ",myLocaldate.toFormat("dd.MM.yyyy HH:mm"),  "The worrktime time in end of a day", workTime);
+				console.log("If ordered in 19 to 23 ",companyLocalTime.toFormat("dd.MM.yyyy HH:mm"),  "The worrktime time in end of a day", workTime);
 				}
 		
-				if( myLocaldate.hour > 7 && myLocaldate.hour < 17 && workTime <= 6){ // First situation for 6 hours !!! latel do <= after function minut +- hour
-						console.log("DeadLine: ",DateDeadline.plus({ hours: workTime}).toFormat("dd.MM.yyyy HH:mm"));	
-						
-						//console.log("DeadLine CHECK: ",DateDeadline.toFormat("dd.MM.yyyy HH:mm"));
-						console.log("LOCAL CHECK: ",localTime.toFormat("dd.MM.yyyy HH:mm"));
-						var myDiffTime = DateDeadline.plus({ hours: workTime}) - localTime;
-						console.log("DIFF: ", msToTime(myDiffTime));	
-						hoursToDone(msToTime(myDiffTime),recognizeWichRow);						
-					return DateDeadline.plus({ hours: workTime});			
-						
+				if( companyLocalTime.hour > 7 && companyLocalTime.hour < 17 && workTime <= 6){ // First situation for 6 hours !!! latel do <= after function minut +- hour
+					console.log("DeadLine: ",DateDeadline.plus({ hours: workTime}).toFormat("dd.MM.yyyy HH:mm"));	
+					
+					//console.log("DeadLine CHECK: ",DateDeadline.toFormat("dd.MM.yyyy HH:mm"));
+					console.log("LOCAL CHECK: ",localTime.toFormat("dd.MM.yyyy HH:mm"));
+					var myDiffTime = DateDeadline.plus({ hours: workTime}) - localTime;
+					console.log("DIFF: ", msToTime(myDiffTime));	
+					hoursToDone(msToTime(myDiffTime),recognizeWichRow);						
+					return DateDeadline.plus({ hours: workTime}).setZone(localTime.zoneName);
 				}
-				if( workTime <= 216){ //second situation for 6 hours "work today & tomorrow"
+				
+				if( workTime <= 216){ // general oeraption for less time work
 						
 						
-						console.log("My local hour on the start of order:",myLocaldate.toFormat("dd.MM.yyyy HH:mm")); 													
+						console.log("My local hour on the start of order:",companyLocalTime.toFormat("dd.MM.yyyy HH:mm")); 													
 						if( night ) {						
 						console.log( "Oh , it va bight added + 9 hou, check",DateDeadline.toFormat("dd.MM.yyyy HH:mm") );
 						}
-						var tempTime = 23 - myLocaldate.hour ; //how much of the time project will be done after taking project on work
+						var tempTime = 23 - companyLocalTime.hour ; //how much of the time project will be done after taking project on work
 						
 						console.log("My vork time in project today: ",tempTime); 
 						
-						//DateDeadline = plusHourDateTime(DateDeadline,tempTime);// adding first day work
+						
 						DateDeadline = DateDeadline.plus({ hours: tempTime});
 						console.log( "vat ve have add ", DateDeadline.toFormat("dd.MM.yyyy HH:mm") );
 						workTime -=tempTime; // work to done next day
@@ -389,7 +397,7 @@
 							console.log( "My Hour deadline changed after aditional night",DateDeadline.toFormat("dd.MM.yyyy HH:mm") );
 							//workTime += 9;
 							console.log("Work count after night",workTime);
-							return CheckNight(DateDeadline,workTime,localTime,recognizeWichRow);
+							return workTime_Calculating(DateDeadline,workTime,localTime,recognizeWichRow);
 							//return DateDeadline;
 						}else {
 						DateDeadline = DateDeadline.plus({ hours: workTime});	
@@ -398,47 +406,33 @@
 						var myDiffTime = DateDeadline - localTime;
 						hoursToDone(msToTime(myDiffTime),recognizeWichRow);
 						
+					
 						
-						
-						return DateDeadline;
+						return DateDeadline.setZone(localTime.zoneName);
 						}
 					
 						console.log("Work to done after first sleep:",workTime);
 						
-						return DateDeadline;
+						return DateDeadline.setZone(localTime.zoneName);
 						
 				} else {
 						
 						console.log("Some work time goes wrong",workTime);
 						
-						return myLocaldate.plus({ hours: workTime + nightSleep }); // if not at work today going to the next day of 08:00 but not from 10 how most of work days starts
+						return companyLocalTime.plus({ hours: workTime + nightSleep }); // if not at work today going to the next day of 08:00 but not from 10 how most of work days starts
 				}
 			}else {
-			return DateDeadline;
+			return DateDeadline.setZone(localTime.zoneName);
 			}
 			
 			
-			//add later worktime also < 36
-			if( workTime == 24){ //all day work 15hours
-				var nightSleep = 8;	
-				console.log("My local hour on the start of order:",myLocaldate.hour); 
-				nightSleep *=2; // 23:00 - 08:00 hour
-											// }
-				console.log(myLocaldate.hour );
-				if(myLocaldate.hour < 20){ //must be less than 19
-				
-					var tempTimeSecond = 23 - myLocaldate.hour ;
-					workTime -=tempTimeSecond;
-					console.log( "Done for in second day",tempTimeSecond );
-					console.log("Work to done after second sleep:",workTime);
-					// console.log("My time in project second today",tempTime);
-					return DateTime.fromISO(myLocaldate.plus({ hours: workTime + nightSleep }));
-				}
-			}
-			if(workTime < 1){
-				return CheckNight(DateDeadline,workTime,localTime,recognizeWichRow);
-				}
-			return myLocaldate.plus({ hours: 1 });
+			
+				if(workTime < 1){			
+					console.log("IS IT WORKS ===============================================",workTime);
+					return workTime_Calculating(DateDeadline,workTime,localTime,recognizeWichRow);					
+					}
+					
+			return companyLocalTime.plus({ hours: 1 });
 		}
 		
 		function hoursToDone (myRowNumber,myrecognise){
@@ -455,9 +449,11 @@
 				}				
 		}
 		
-		function plusHourDateTime (dt , myhours){
-			return dt.plus({hours: myhours});			
-		}
+
+
+		
+		
+		
 		
 		function roundoffTime(timetoRound) { // function to round of a time
 			if (timetoRound.minute < 30){
@@ -499,13 +495,13 @@
        
         var $d3 = $(".js-range-slider"); // js io slider 		
         function $d3_change(myinput, myinput2){ // when slider moves
-			
+			 
 			var $inp = $d3;
 			var data = $inp.prop("value");
 			var pages;
 				
 				
-			//var timeOffice = new Date(); // Creating 
+		
 		
 
 							 
@@ -519,11 +515,13 @@
 					pages = (data/250).toFixed();
 					//		console.log(data);
 					//		console.log(pages);
-					var x, y, z;
+					var x, y, z; // workTime wich used to first input for main function
 					if (data >=250 && data <=500) {
-					x = 6; y = 12; z = 48;
+					//x = 6; y = 12; z = 48;
+					x = 6; y = 16; z = 48;
 						} else if ( data >= 501 && data <= 2500 ) {
-							x = 12; y = 24; z = 72;
+							x = 12; y = 28; z = 72;
+							//x = 12; y = 24; z = 72;
 							}  else if ( data >= 2501 && data <= 12500 ) {
 								x = 24; y = 48; z = 96;
 								}  else if ( data >= 12501 && data <= 15000 ) {
@@ -546,27 +544,43 @@
             //		$(".mcalc-row:nth-child(3) > *:nth-child(2) > *:nth-child(1) > span").text(z);
            
 		
+			//function to change the time use
 			
 			
-            var price_1 = (data * 0.2).toFixed();
-            var price_2 = (data * 0.15).toFixed();
-            var price_3 = (data * 0.1).toFixed();
+			
+			
+            var price_1 = (data * 0.10).toFixed();
+            var price_2 = (data * 0.05).toFixed();
+            var price_3 = (data * 0.03).toFixed();
 			
             $(".mcalc-row:nth-child(1) > *:nth-child(2) > *:nth-child(2) > span").text(formatter.format(price_1));	
             $(".mcalc-row:nth-child(2) > *:nth-child(2) > *:nth-child(2) > span").text(formatter.format(price_2));
             $(".mcalc-row:nth-child(3) > *:nth-child(2) > *:nth-child(2) > span").text(formatter.format(price_3));
 			
-			$(".mcalc-row:nth-child(1) > *:nth-child(1) > *:nth-child(2) > span  ").text("Deadline: " + CheckNight(roundoffTime(timeLocal),x, roundoffTime(timeLocal), 1).toFormat("D,hh:mm, a, z")); // in future add another UTC time
-           $(".mcalc-row:nth-child(2) > *:nth-child(1) > *:nth-child(2) > span  ").text("Deadline: " + CheckNight(roundoffTime(timeLocal),y, roundoffTime(timeLocal), 2).toFormat("D,hh:mm, a, z")); // in future add another UTC time
-           $(".mcalc-row:nth-child(3) > *:nth-child(1) > *:nth-child(2) > span  ").text("Deadline: " + CheckNight(roundoffTime(timeLocal),z, roundoffTime(timeLocal), 3).toFormat("D,hh:mm, a, z")); // in future add another UTC time
-            
-		//$(".mcalc-row:nth-child(1) > *:nth-child(2) > *:nth-child(1)").html(hoursToDone());		
-			//$(".mcalc-row:nth-child(1) > *:nth-child(2) > *:nth-child(1)").html(isDay(x));					
+		
+		
+		//$(".mcalc-row:nth-child(1) > *:nth-child(2) > *:nth-child(1)").html(isDay(x));					
         //  $(".mcalc-row:nth-child(2) > *:nth-child(2) > *:nth-child(1)").html(isDay(y));
 		//	$(".mcalc-row:nth-child(3) > *:nth-child(2) > *:nth-child(1)").html(isDay(z));
-			
-			
-			
+		
+		
+			if( myselect.value == ""){			
+				console.log("SELECTED LOCAL");
+				mySelectedZone = DateTime.local(); 
+				$(".mcalc-row:nth-child(1) > *:nth-child(1) > *:nth-child(2) > span  ").text("Deadline: " + workTime_Calculating(roundoffTime(timeKiev),x, roundoffTime(mySelectedZone), 1).toFormat("D,hh:mm, a, z")); // in future add another UTC time
+				$(".mcalc-row:nth-child(2) > *:nth-child(1) > *:nth-child(2) > span  ").text("Deadline: " + workTime_Calculating(roundoffTime(timeKiev),y, roundoffTime(mySelectedZone), 2).toFormat("D,hh:mm, a, z")); // in future add another UTC time
+				$(".mcalc-row:nth-child(3) > *:nth-child(1) > *:nth-child(2) > span  ").text("Deadline: " + workTime_Calculating(roundoffTime(timeKiev),z, roundoffTime(mySelectedZone), 3).toFormat("D,hh:mm, a, z"));
+				
+				} else {
+					mySelectedZone = timeLocal.setZone(myselect.value); // London time 	
+					console.log("CHECK LONDON TIME:",mySelectedZone.isValid);
+					console.log("CHECK LONDON TIME:",mySelectedZone.toFormat("D,hh:mm, a, z"));
+				$(".mcalc-row:nth-child(1) > *:nth-child(1) > *:nth-child(2) > span  ").text("Deadline: " + workTime_Calculating(roundoffTime(timeKiev),x, roundoffTime(mySelectedZone), 1).toFormat("D,hh:mm, a, z")); // in future add another UTC time
+				$(".mcalc-row:nth-child(2) > *:nth-child(1) > *:nth-child(2) > span  ").text("Deadline: " + workTime_Calculating(roundoffTime(timeKiev),y, roundoffTime(mySelectedZone), 2).toFormat("D,hh:mm, a, z")); // in future add another UTC time
+				$(".mcalc-row:nth-child(3) > *:nth-child(1) > *:nth-child(2) > span  ").text("Deadline: " + workTime_Calculating(roundoffTime(timeKiev),z, roundoffTime(mySelectedZone), 3).toFormat("D,hh:mm, a, z")); // in future add another UTC time
+			}			
+					
+ 
 			$("#mcalcinp-words").val(data);
             $("#mcalcinp-pages").val(pages);
 			
@@ -576,7 +590,8 @@
 		
         $d3.ionRangeSlider({
             //		min: 250,
-            min: 250,
+            
+			min: 250,
             max: 25000,
             from:2500,
             from_min: 0,
@@ -591,9 +606,14 @@
             prettify_separator: ",",
 			
 			
-            onStart: function (data) {						
+            onStart: function (data) {		
+			$( "select" ).change(function () {
+				//alert('changed');
+					startTime($('#myselect').value);
+				   $d3_change();	
+				}).change();
 			
-                $d3_change();				
+              
 				
             },
             onChange: function (data) {
@@ -605,8 +625,10 @@
                 //			} else {
                 //				$(".mcalc-row:nth-child(1) > *:nth-child(2)").html("<div><span></span> days</div><div>$<span></span></div>");
                 //			}
-				 
-                $d3_change();
+				
+				
+   
+               $d3_change();
 				$(".irs-min").text("250 words");    
             }
 			
@@ -629,7 +651,7 @@
                 if(inp_val < 250){ inp.val(250); inp_val = 250; }
                 else if (inp_val > 25000) { inp.val(25000); inp_val = 25000; }
                 $d3_change(inp_val);
-                my_slider.update({ from: inp_val, });
+                my_slider.update({  from: inp_val,  });
                 $(".irs-min").text("250 words");
             }, time);
         });
@@ -654,18 +676,72 @@
         });
     });	
 	
+	function checkTime(i) {
+	  if (i < 10) {
+		i = "0" + i;
+	  }
+	  return i;
+	}
+	
+	
+	function startTime(selectedZone) {
+	  var today = DateTime.local().setZone($("#myselect").val());
+	  var h = today.hour;	  
+	  var m = today.minute;
+	  var s = today.second;
+	  // add a zero in front of numbers<10
+	  m = checkTime(m);
+	  s = checkTime(s);
+	 
+	  if ($("#myselect").val() == 'local'){
+		 document.getElementById('time').innerHTML = today.zoneName + " and your time: " + h + ":" + m + ":" + s;
+	  } else {
+	   document.getElementById('time').innerHTML = h + ":" + m + ":" + s;
+	  }
+		t = setTimeout(function() {
+		startTime()
+	  }, 500);
+	}
+
+	
+		
 	$(document).ready(function(){ 
 
+		
+	
+	//	$('.js-range-slider').ionRangeSlider('refresh', { useCurrentValue: true });
+				
+			
 	$(".mcalc-inputs, .mcalc-rows, .mcalc-range").fadeIn(10); //my animation when calculator shows
+		
   });
-
+		
 
 </script>
 </head>
+		
 
 <div id="mcalc">
+	<div id="row-time-zone">
 
 	
+
+		<h1>Your time:  </h1>
+		<div>
+		  <div class="select-time-zone">
+			<select id="myselect">
+			  <option value="local" id="1">Your time Zone</option>
+			  <option value="Europe/London" id="2">Europe/London</option>
+			  <option value="America/New_York" id="3">America/New_York</option>
+			  <option value="Asia/Qatar" id="4">Asia/Qatar</option>
+			</select>
+		  </div>
+		</div>  
+		<div>
+		  <div id="time">My time</div>
+		</div> 
+	</div> 
+
 
 	<div id="div1" style="width:80px;height:80px;display:none;background-color:red;"></div><br>
 	<div id="div2" style="width:80px;height:80px;display:none;background-color:green;"></div><br>
@@ -683,7 +759,7 @@
 				</div>
 				
 				<div>
-					$0.20/word </br><span>deadline</span>
+					$0.10/word </br><span>deadline</span>
 				</div>
 				
 			</div>
@@ -703,7 +779,7 @@
 					Fast
 				</div>
 				<div>
-					$0.15/word</br><span>deadline</span>
+					$0.05/word</br><span>deadline</span>
 				</div>
 			</div>
             <div>
@@ -712,7 +788,7 @@
 			</div>		
 		</div>
         <div class="mcalc-row">           
-			<div><div>Economy</div><div>$0.10/word</br><span>deadline</span></div></div>
+			<div><div>Economy</div><div>$0.03/word</br><span>deadline</span></div></div>
             <div><div><span></span> days</div>
 			<div>$<span>1000</span></div>
 			</div>	
