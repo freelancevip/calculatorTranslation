@@ -6,7 +6,7 @@
     <style type="text/css">
         .scc-time {
             max-width: 450px;
-            margin: 0 auto 40px;
+            margin: 0 auto 60px;
             text-align: center;
         }
 
@@ -51,13 +51,13 @@
             }
         }
 
-        .irs-max {
-            visibility: hidden !important;
-        }
+        /*.irs-max {*/
+        /*visibility: hidden !important;*/
+        /*}*/
 
-        .irs-min {
-            visibility: hidden !important;
-        }
+        /*.irs-min {*/
+        /*visibility: hidden !important;*/
+        /*}*/
 
         input, textarea {
             outline: none !important;
@@ -139,6 +139,7 @@
         }
 
         #mcalc {
+            overflow: hidden;
             margin: 0 auto;
             padding: 20px 40px 20px 10px;
             font-family: 'Roboto', sans-serif;
@@ -243,34 +244,13 @@
         }
 
         .irs--square .irs-single {
-            padding: 0 10px;
-            top: -15px;
+            padding: 0;
+            top: -33px;
             color: #000;
             background: #fff;
             border: 1px solid #000;
-            line-height: 2;
             z-index: 11;
-        }
-
-        .scc-words {
-            line-height: 2;
-            position: relative;
-            padding-left: 10px;
-            cursor: move;
-        }
-
-        .scc-words:before {
-            content: '';
-            position: absolute;
-            width: 1px;
-            left: 3px;
-            background: #000;
-            height: 29px;
-        }
-
-        .scc-h-input {
-            outline: none;
-            max-width: 60px;
+            font-size: 20px
         }
 
         .fc-past {
@@ -311,6 +291,49 @@
             background: #fff;
             margin: 0 0 20px;
             border: 2px solid orange;
+        }
+
+        .fc-body .fc-row {
+            min-height: 110px !important;
+        }
+
+        @media (min-width: 931px) {
+            .fc-body .fc-row {
+                min-height: 138px !important;
+            }
+        }
+
+        .scc-input-wrap {
+            width: 84px;
+            display: inline-block;
+            line-height: 1;
+        }
+
+        .scc-words {
+            line-height: 1;
+            position: relative;
+            display: inline-block;
+        }
+
+        .scc-h-input {
+            outline: none;
+            width: 100%;
+            margin: 0;
+            padding: 4px;
+            vertical-align: middle;
+        }
+        .scc-input-wrap, .scc-sep, .scc-words{
+            height: 50px;
+            line-height: 50px;
+            vertical-align: middle;
+        }
+        .scc-input-wrap, .scc-words{
+            padding: 0 15px;
+        }
+        .scc-sep {
+            display: inline-block;
+            width: 1px;
+            background: #000;
         }
     </style>
 </head>
@@ -357,7 +380,6 @@
       defaultView: 'week',
       header: false,
       firstDay: 1,
-      // aspectRatio: 3,
       contentHeight: 'auto',
       views: {
         week: {
@@ -376,10 +398,6 @@
 
     function workTime_Calculating(companyLocalTime, workTime, localTime, recognizeWichRow) {
 
-      /*! Checking and changing if there night or day time.   */
-      /*! Possible ot upgrade ton checks hours in more than 30min to take to higher hour*/
-      var night = false;
-
       var DateDeadline = companyLocalTime;
 
       if (workTime > 0) { 	// checks if there have time to work
@@ -387,16 +405,13 @@
           workTime += 8 - companyLocalTime.hour;
 
         }
-        if (companyLocalTime.hour > 19 && companyLocalTime.hour < 24) { // check if it normal works ?
-          night = true;
-        }
 
         if (companyLocalTime.hour > 7 && companyLocalTime.hour < 17 && workTime <= 6) { // First situation for 6 hours !!! latel do <= after function minut +- hour
           var myDiffTime = DateDeadline.plus({hours: workTime}) - localTime;
           return DateDeadline.plus({hours: workTime}).setZone(localTime.zoneName);
         }
 
-        if (workTime <= 216) { // general oeraption for less time work
+        if (workTime <= 216) { // general operation for less time work
           var tempTime = 23 - companyLocalTime.hour; //how much of the time project will be done after taking project on work
           DateDeadline = DateDeadline.plus({hours: tempTime});
           workTime -= tempTime; // work to done next day
@@ -445,22 +460,11 @@
 
     /**
      * when slider moves
-     * @param myinput
-     * @param myinput2
      */
-    function $d3_change(myinput, myinput2) {
+    function $d3_change() {
 
-      var $inp = $d3;
-      var data = $inp.prop('value');
-      var pages;
+      var data = $d3.data('ionRangeSlider').result.from;
 
-      if (myinput) {
-        data = myinput;
-      } else if (myinput2) {
-        data = myinput2 * 250;
-      }
-
-      pages = (data / 250).toFixed();
       if (data >= 250 && data <= 500) {
         //x = 6; y = 12; z = 48;
         x = 6;
@@ -547,30 +551,32 @@
 
     }
 
+    $('#myselect').change(function() {
+      startTime($('#myselect').value);
+    }).change();
+
     $d3.ionRangeSlider({
       min: 250,
       max: 25000,
       from: 2500,
-      from_min: 0,
+      // from_min: 0,
+      type: 'single',
       grid: 'true',
+      hide_min_max: false,
       force_edges: true,
       skin: 'square',
       grid_num: 3,
-      postfix: ' <span class="scc-words">words</span>',
       prettify_separator: ',',
-      onStart: function(data) {
-        $('select').change(function() {
-          startTime($('#myselect').value);
-          $d3_change();
-        }).change();
-
-      },
-      onChange: function(data) {
+      onFinish: function(data) {
         $d3_change();
-        $('.irs-min').text('250 words');
+        setSlideHandlerHTML();
       },
       onUpdate: function(data) {
         $d3_change();
+        setSlideHandlerHTML();
+      },
+      onChange: function(data) {
+        setSlideHandlerHTML();
       },
 
     });
@@ -579,13 +585,14 @@
     var handleInputInterval;
     var handleInputDelay = 5 * 1000;
 
-    $(document).on('click', slideHandler, function(e) {
-      e.preventDefault();
-      var val = $d3.data('ionRangeSlider').result.from;
-      $(slideHandler).html('<input type=text class="scc-h-input"> <span class="scc-words">words</span>');
-      $(slideHandler).find('input').focus();
-      clearInterval(handleInputInterval);
-    });
+    function setSlideHandlerHTML() {
+      // $(slideHandler).html('<input type=text class="scc-h-input"> <span class="scc-words">words</span>');
+      var words = $d3.data('ionRangeSlider').result.from;
+      $('.irs-single').
+          html(
+              '<span class="scc-input-wrap"><input type=text class="scc-h-input"></span><span class="scc-sep"></span><span class="scc-words">words</span>');
+      $('.scc-h-input').last().focus().val(words);
+    }
 
     $(document).on('keyup', '.scc-h-input', function(e) {
       e.preventDefault();
@@ -595,23 +602,29 @@
         $d3.data('ionRangeSlider').update({
           from: val,
         });
+        setSlideHandlerHTML();
       } else {
         handleInputInterval = setTimeout(function() {
           $d3.data('ionRangeSlider').update({
             from: val,
           });
+          setSlideHandlerHTML();
         }, handleInputDelay);
       }
     });
 
     $('.irs-min').text('250 words');
 
-    var my_slider = $d3.data('ionRangeSlider');
-
     $('#curr-month').text(timeLocal.toFormat('LLLL'));
     $('#myselect').on('change', function() {
       $('#curr-month').text(timeLocal.toFormat('LLLL'));
+      $d3_change();
     });
+
+    setTimeout(function() {
+      $d3_change();
+      setSlideHandlerHTML();
+    }, 300);
 
   });
 
@@ -623,8 +636,8 @@
   }
 
   function startTime(selectedZone) {
-    let $myselect = $('#myselect');
-    var today = DateTime.local().setZone($myselect.val());
+    var mySelectVal = $('#myselect').val();
+    var today = DateTime.local().setZone(mySelectVal);
     var h = today.hour;
     var m = today.minute;
     var s = today.second;
@@ -632,7 +645,7 @@
     m = checkTime(m);
     s = checkTime(s);
 
-    if ($myselect.val() === 'local') {
+    if (mySelectVal === 'local') {
       document.getElementById('time').innerHTML = h + ':' + m + ':' + s;
     } else {
       document.getElementById('time').innerHTML = h + ':' + m + ':' + s;
