@@ -1,19 +1,18 @@
 <!doctype html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.0/css/ion.rangeSlider.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/fullcalendar.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/css/select2.min.css" rel="stylesheet"/>
     <style type="text/css">
         .scc-time {
             max-width: 450px;
-            margin: 0 auto 60px;
+            margin: 0 auto 20px;
+            display: flex;
             text-align: center;
-        }
-
-        .scc-time:after {
-            content: "";
-            display: table;
-            clear: both;
         }
 
         .scc-time__t {
@@ -23,24 +22,29 @@
         }
 
         .scc-time__zone, .scc-time__cur {
-            width: 50%;
-            float: left;
-            line-height: 1.3;
+            flex: 50%;
+            line-height: 2;
             border-bottom: 2px solid orange;
-            padding: 15px;
+            padding: 13px 15px;
             background: #fff;
+            font-size: 16px;
         }
 
         .scc-time__zone {
-            border-left: 2px solid orange;
-            border-right: 2px solid orange;
+            border: 2px solid orange;
         }
 
         .scc-time__cur {
-            border-right: 2px solid orange;
+            border: 2px solid orange;
+            border-left: none;
+            text-transform: lowercase;
         }
 
-        @media (max-width: 450px) {
+        @media (max-width: 465px) {
+            .scc-time {
+                display: block;
+            }
+
             .scc-time__zone, .scc-time__cur {
                 width: auto;
                 float: none;
@@ -48,16 +52,9 @@
 
             .scc-time__cur {
                 border-left: 2px solid orange;
+                border-top: 0;
             }
         }
-
-        /*.irs-max {*/
-        /*visibility: hidden !important;*/
-        /*}*/
-
-        /*.irs-min {*/
-        /*visibility: hidden !important;*/
-        /*}*/
 
         input, textarea {
             outline: none !important;
@@ -219,7 +216,7 @@
 
         @media (max-width: 650px) {
             #mcalc {
-                padding: 18px;
+                padding: 15px;
             }
 
             .irs--big .irs-single {
@@ -244,36 +241,43 @@
         }
 
         .irs--square .irs-single {
+            display: none;
             padding: 0;
             top: -33px;
             color: #000;
             background: #fff;
             border: 1px solid #000;
             z-index: 11;
-            font-size: 20px
+            font-size: 20px;
+            margin-left: -54px;
         }
 
         .fc-past {
-            background: rgba(34, 34, 34, 0.5);
+            background: #bcc6cc;
         }
 
-        .fc-sun {
-            background-color: rgba(255, 24, 0, 0.31);
+        .fc-sat, .fc-sun, .fc-today.fc-sat, .fc-today.fc-sun {
+            background-color: #ffb7b0 !important;
+            border-color: #ddd;
         }
 
-        .fc-sat {
-            background-color: rgba(255, 24, 0, 0.31);
+        .fc .fc-row .fc-content-skeleton table, .fc .fc-row .fc-content-skeleton td, .fc .fc-row .fc-helper-skeleton td {
+            border-color: inherit;
         }
 
         .fc-title {
-            padding: 6px;
+            padding: 1px;
             display: block;
         }
 
+        .fc-today {
+            background-color: transparent !important;
+        }
+
         .fc-today .fc-day-number {
-            border: 3px solid red;
+            border: 2px solid red;
             border-radius: 30px;
-            width: 43px;
+            width: 30px;
             text-align: center;
         }
 
@@ -281,80 +285,138 @@
             float: left;
         }
 
-        .month-title {
-            text-align: center;
-        }
-
-        .month-title span {
-            display: inline-block;
-            padding: 20px 40px;
-            background: #fff;
-            margin: 0 0 20px;
-            border: 2px solid orange;
-        }
-
         .fc-body .fc-row {
-            min-height: 110px !important;
+            min-height: 129px !important;
         }
 
         @media (min-width: 931px) {
             .fc-body .fc-row {
-                min-height: 138px !important;
+                min-height: 149px !important;
             }
         }
 
-        .scc-input-wrap {
-            width: 84px;
-            display: inline-block;
-            line-height: 1;
+        @media (max-width: 650px) {
+            .fc-body .fc-row {
+                min-height: 100px !important;
+            }
         }
 
-        .scc-words {
-            line-height: 1;
-            position: relative;
-            display: inline-block;
+        .fc-row .fc-content-skeleton {
+            padding-bottom: 0;
         }
 
-        .scc-h-input {
-            outline: none;
+        @media (min-width: 485px) {
+            .fc-title {
+                padding: 6px;
+            }
+        }
+
+        .fc-day-number {
+            font-size: 16px;
+            font-weight: bold;
+            border: 2px solid transparent;
+        }
+
+        #select2-myselect-container {
+            font-size: 15px;
+        }
+
+        @media (max-width: 650px) {
+            .fc-content {
+                font-size: 10px;
+            }
+
+        }
+
+        .scc-input {
+            display: flex;
+            max-width: 150px;
+            margin: auto;
+            background: #fff;
+            text-align: center;
+            font-size: 24px;
+        }
+
+        .scc-input input {
             width: 100%;
+            border: 0;
+            height: 34px;
+            line-height: 34px;
+            padding: 0 10px;
+            font-size: 36px;
+            position: relative;
+            top: 2px;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .scc-input {
+                font-size: 14px;
+            }
+
+            .scc-input input {
+                font-size: 22px;
+            }
+        }
+
+        .scc-input__col {
+            flex: 50%;
+            padding: 5px;
+            border: 2px solid #000;
+        }
+
+        .scc-input .scc-input__col:last-child {
+            border-left: 0;
+            display: none;
+        }
+
+        tr:first-child > td > .fc-day-grid-event {
             margin: 0;
-            padding: 4px;
-            vertical-align: middle;
         }
-        .scc-input-wrap, .scc-sep, .scc-words{
-            height: 50px;
-            line-height: 50px;
-            vertical-align: middle;
+
+        .event-time {
+            text-transform: lowercase;
         }
-        .scc-input-wrap, .scc-words{
-            padding: 0 15px;
+
+        .event-price {
+            color: darkgreen;
         }
-        .scc-sep {
-            display: inline-block;
-            width: 1px;
-            background: #000;
+
+        .fc-day-grid-event {
+            margin: 0;
+        }
+
+        .time-2 {
+            margin-left: 17px;
         }
     </style>
 </head>
 <body>
 <div id="mcalc">
     <div class="scc-time">
-        <div class="scc-time__t">Your time:</div>
         <div class="scc-time__zone">
             <select id="myselect" title>
-                <option value="local" id="1">Your time Zone</option>
-                <option value="Europe/London" id="2">Europe/London</option>
-                <option value="America/New_York" id="3">America/New_York</option>
-                <option value="Asia/Qatar" id="4">Asia/Qatar</option>
+                <option value="local">Your time Zone</option>
+                <option value="Europe/London">Europe/London</option>
+                <option value="America/New_York">America/New_York</option>
+                <option value="Asia/Qatar">Asia/Qatar</option>
+                <option value="Africa/Abidjan">Africa/Abidjan</option>
+                <option value="Pacific/Guam">Pacific/Guam</option>
             </select>
         </div>
         <div class="scc-time__cur"><span id="time">00:00 pm</span></div>
     </div>
+    <div class="scc-input">
+        <div class="scc-input__col">
+            <input type="text" id="scc-input">
+        </div>
+        <div class="scc-input__col">
+        </div>
+    </div>
     <div class="mcalc-range" style="display:none">
+        <center>words</center>
         <input type="text" class="js-range-slider" name="my_range" value="">
     </div>
-    <div class="month-title"><span id="curr-month"></span></div>
     <div id="scc-calendar"></div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
@@ -362,6 +424,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.0/js/ion.rangeSlider.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/luxon@1.3.3/build/global/luxon.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.5.1/fullcalendar.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js"></script>
 <script>
   /*! jquery-dateformat 28-04-2018 */
   //	var DateFormat={};!function(e){var I=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],O=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],v=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],w=["January","February","March","April","May","June","July","August","September","October","November","December"],a={Jan:"01",Feb:"02",Mar:"03",Apr:"04",May:"05",Jun:"06",Jul:"07",Aug:"08",Sep:"09",Oct:"10",Nov:"11",Dec:"12"},u=/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.?\d{0,3}[Z\-+]?(\d{2}:?\d{2})?/;DateFormat.format=function(){function o(e){return a[e]||e}function i(e){var a,r,t,n,s,o=e,i="";return-1!==o.indexOf(".")&&(o=(n=o.split("."))[0],i=n[n.length-1]),3===(s=o.split(":")).length?(a=s[0],r=s[1],t=s[2].replace(/\s.+/,"").replace(/[a-z]/gi,""),{time:o=o.replace(/\s.+/,"").replace(/[a-z]/gi,""),hour:a,minute:r,second:t,millis:i}):{time:"",hour:"",minute:"",second:"",millis:""}}function D(e,a){for(var r=a-String(e).length,t=0;t<r;t++)e="0"+e;return e}return{parseDate:function(e){var a,r,t={date:null,year:null,month:null,dayOfMonth:null,dayOfWeek:null,time:null};if("number"==typeof e)return this.parseDate(new Date(e));if("function"==typeof e.getFullYear)t.year=String(e.getFullYear()),t.month=String(e.getMonth()+1),t.dayOfMonth=String(e.getDate()),t.time=i(e.toTimeString()+"."+e.getMilliseconds());else if(-1!=e.search(u))a=e.split(/[T\+-]/),t.year=a[0],t.month=a[1],t.dayOfMonth=a[2],t.time=i(a[3].split(".")[0]);else switch(6===(a=e.split(" ")).length&&isNaN(a[5])&&(a[a.length]="()"),a.length){case 6:t.year=a[5],t.month=o(a[1]),t.dayOfMonth=a[2],t.time=i(a[3]);break;case 2:r=a[0].split("-"),t.year=r[0],t.month=r[1],t.dayOfMonth=r[2],t.time=i(a[1]);break;case 7:case 9:case 10:t.year=a[3];var n=parseInt(a[1]),s=parseInt(a[2]);n&&!s?(t.month=o(a[2]),t.dayOfMonth=a[1]):(t.month=o(a[1]),t.dayOfMonth=a[2]),t.time=i(a[4]);break;case 1:r=a[0].split(""),t.year=r[0]+r[1]+r[2]+r[3],t.month=r[5]+r[6],t.dayOfMonth=r[8]+r[9],t.time=i(r[13]+r[14]+r[15]+r[16]+r[17]+r[18]+r[19]+r[20]);break;default:return null}return t.time?t.date=new Date(t.year,t.month-1,t.dayOfMonth,t.time.hour,t.time.minute,t.time.second,t.time.millis):t.date=new Date(t.year,t.month-1,t.dayOfMonth),t.dayOfWeek=String(t.date.getDay()),t},date:function(a,e){try{var r=this.parseDate(a);if(null===r)return a;for(var t,n=r.year,s=r.month,o=r.dayOfMonth,i=r.dayOfWeek,u=r.time,c="",h="",l="",m=!1,y=0;y<e.length;y++){var d=e.charAt(y),f=e.charAt(y+1);if(m)"'"==d?(h+=""===c?"'":c,c="",m=!1):c+=d;else switch(l="",c+=d){case"ddd":h+=(S=i,I[parseInt(S,10)]||S),c="";break;case"dd":if("d"===f)break;h+=D(o,2),c="";break;case"d":if("d"===f)break;h+=parseInt(o,10),c="";break;case"D":h+=o=1==o||21==o||31==o?parseInt(o,10)+"st":2==o||22==o?parseInt(o,10)+"nd":3==o||23==o?parseInt(o,10)+"rd":parseInt(o,10)+"th",c="";break;case"MMMM":h+=(M=s,void 0,g=parseInt(M,10)-1,w[g]||M),c="";break;case"MMM":if("M"===f)break;h+=(k=s,void 0,p=parseInt(k,10)-1,v[p]||k),c="";break;case"MM":if("M"===f)break;h+=D(s,2),c="";break;case"M":if("M"===f)break;h+=parseInt(s,10),c="";break;case"y":case"yyy":if("y"===f)break;h+=c,c="";break;case"yy":if("y"===f)break;h+=String(n).slice(-2),c="";break;case"yyyy":h+=n,c="";break;case"HH":h+=D(u.hour,2),c="";break;case"H":if("H"===f)break;h+=parseInt(u.hour,10),c="";break;case"hh":h+=D(t=0===parseInt(u.hour,10)?12:u.hour<13?u.hour:u.hour-12,2),c="";break;case"h":if("h"===f)break;t=0===parseInt(u.hour,10)?12:u.hour<13?u.hour:u.hour-12,h+=parseInt(t,10),c="";break;case"mm":h+=D(u.minute,2),c="";break;case"m":if("m"===f)break;h+=parseInt(u.minute,10),c="";break;case"ss":h+=D(u.second.substring(0,2),2),c="";break;case"s":if("s"===f)break;h+=parseInt(u.second,10),c="";break;case"S":case"SS":if("S"===f)break;h+=c,c="";break;case"SSS":h+=D(u.millis.substring(0,3),3),c="";break;case"a":h+=12<=u.hour?"PM":"AM",c="";break;case"p":h+=12<=u.hour?"p.m.":"a.m.",c="";break;case"E":h+=(b=i,O[parseInt(b,10)]||b),c="";break;case"'":c="",m=!0;break;default:h+=d,c=""}}return h+=l}catch(e){return console&&console.log&&console.log(e),a}var b,k,p,M,g,S},prettyDate:function(e){var a,r,t,n,s;if("string"!=typeof e&&"number"!=typeof e||(a=new Date(e)),"object"==typeof e&&(a=new Date(e.toString())),r=((new Date).getTime()-a.getTime())/1e3,t=Math.abs(r),n=Math.floor(t/86400),!isNaN(n))return s=r<0?"from now":"ago",t<60?0<=r?"just now":"in a moment":t<120?"1 minute "+s:t<3600?Math.floor(t/60)+" minutes "+s:t<7200?"1 hour "+s:t<86400?Math.floor(t/3600)+" hours "+s:1===n?0<=r?"Yesterday":"Tomorrow":n<7?n+" days "+s:7===n?"1 week "+s:n<31?Math.ceil(n/7)+" weeks "+s:"more than 5 weeks "+s},toBrowserTimeZone:function(e,a){return this.date(new Date(e),a||"MM/dd/yyyy HH:mm:ss")}}}()}(),jQuery.format=DateFormat.format;
@@ -371,30 +434,41 @@
 
   var timeLocal = DateTime.local(); // Local time
   var timeKiev = DateTime.local().setZone('Europe/Kiev'); // Local time
-  timeLondon = timeLocal.setZone('Europe/London'); // London time
   var events;
+  var sliderOptions = {
+    min: 250,
+    max: 25000,
+    from: 2500,
+  };
 
-  $(function() {
+  jQuery(document).ready(function($) {
 
-    $('#scc-calendar').fullCalendar({
-      defaultView: 'week',
-      header: false,
-      firstDay: 1,
-      contentHeight: 'auto',
-      views: {
-        week: {
-          type: 'basic',
-          duration: {weeks: 3},
+    function calendar() {
+      $('#scc-calendar').fullCalendar({
+        defaultView: 'week',
+        header: false,
+        firstDay: 1,
+        timeZone: 'local',
+        contentHeight: 'auto',
+        eventOrder: 'description',
+        views: {
+          week: {
+            type: 'basic',
+            duration: {weeks: 3},
+          },
         },
-      },
-      eventRender: function(event, element, view) {
-        var title = element.find('.fc-title');
-        var html = '<div class="event-title">' + event.title + '</div>';
-        html += '<div class="event-time">' + event.time + '</div>';
-        html += '<div class="event-price">$ ' + event.price + '</div>';
-        title.html(html);
-      },
-    });
+        eventRender: function(event, element, view) {
+          var title = element.find('.fc-title');
+          var html = '<div class="event-title">' + event.title + '</div>';
+          html += '<div class="event-time">' + event.time + '</div>';
+          html += '<div class="event-price-word">' + event.pricePerWord + '</div>';
+          html += '<div class="event-price">$ ' + event.price + '</div>';
+          title.html(html);
+        },
+      });
+    }
+
+    calendar();
 
     function workTime_Calculating(companyLocalTime, workTime, localTime, recognizeWichRow) {
 
@@ -526,22 +600,28 @@
       events = [
         {
           title: 'Super Fast',
-          time: dateSuperFast.toFormat('hh:mm a'),
+          time: dateSuperFast.toFormat('ha'),
           price: formatter.format(price_1),
+          pricePerWord: '$0,10/word',
           start: dateSuperFast.toISODate(),
           color: '#fa7167',
+          description: 1,
         }, {
           title: 'Fast',
-          time: dateFast.toFormat('hh:mm a'),
+          time: dateFast.toFormat('ha'),
           price: formatter.format(price_2),
+          pricePerWord: '$0,05/word',
           start: dateFast.toISODate(),
           color: 'orange',
+          description: 2,
         }, {
           title: 'Economy',
-          time: dateEconomy.toFormat('hh:mm a'),
+          time: dateEconomy.toFormat('ha'),
           price: formatter.format(price_3),
+          pricePerWord: '$0,02/word',
           start: dateEconomy.toISODate(),
           color: 'grey',
+          description: 3,
         },
       ];
 
@@ -551,105 +631,98 @@
 
     }
 
-    $('#myselect').change(function() {
-      startTime($('#myselect').value);
-    }).change();
+    $(document).on('change', '#myselect', function(e) {
+      var tz = $('#myselect').val();
+      startTime(tz);
+      $d3_change();
+      var today = DateTime.local().setZone(tz);
+      $('#scc-calendar').fullCalendar('option', 'now', today.toISO());
+    });
+
+    $(document).on('click', '#scc-input', function(e) {
+      $(this).select();
+    });
+
+    $(document).on('change', '#scc-input', function(e) {
+      var val = +this.value.replace(/,/, '');
+
+      $d3.data('ionRangeSlider').update({
+        from: val,
+      });
+    });
+
+    function changeSliderInput(data) {
+      $('#scc-input').val(numberWithCommas(data.from));
+    }
+
+    changeSliderInput({from: sliderOptions.from});
 
     $d3.ionRangeSlider({
-      min: 250,
-      max: 25000,
-      from: 2500,
-      // from_min: 0,
+      min: sliderOptions.min,
+      max: sliderOptions.max,
+      from: sliderOptions.from,
       type: 'single',
       grid: 'true',
-      hide_min_max: false,
-      force_edges: true,
+      hide_min_max: true,
+      force_edges: false,
       skin: 'square',
       grid_num: 3,
       prettify_separator: ',',
       onFinish: function(data) {
         $d3_change();
-        setSlideHandlerHTML();
       },
       onUpdate: function(data) {
         $d3_change();
-        setSlideHandlerHTML();
+        changeSliderInput(data);
       },
       onChange: function(data) {
-        setSlideHandlerHTML();
+        $d3_change();
+        changeSliderInput(data);
       },
 
     });
 
-    var slideHandler = '.irs-single';
     var handleInputInterval;
     var handleInputDelay = 5 * 1000;
 
-    function setSlideHandlerHTML() {
-      // $(slideHandler).html('<input type=text class="scc-h-input"> <span class="scc-words">words</span>');
-      var words = $d3.data('ionRangeSlider').result.from;
-      $('.irs-single').
-          html(
-              '<span class="scc-input-wrap"><input type=text class="scc-h-input"></span><span class="scc-sep"></span><span class="scc-words">words</span>');
-      $('.scc-h-input').last().focus().val(words);
-    }
-
-    $(document).on('keyup', '.scc-h-input', function(e) {
+    $(document).on('keyup', '#scc-input', function(e) {
       e.preventDefault();
-      var val = $(this).val();
+      var val = $(this).val().replace(/,/, '');
       clearInterval(handleInputInterval);
+      if (val < sliderOptions.min) {
+        val = sliderOptions.min;
+      }
+      if (val > sliderOptions.max) {
+        val = sliderOptions.max;
+      }
       if (e.keyCode === 13) {
         $d3.data('ionRangeSlider').update({
           from: val,
         });
-        setSlideHandlerHTML();
       } else {
         handleInputInterval = setTimeout(function() {
           $d3.data('ionRangeSlider').update({
             from: val,
           });
-          setSlideHandlerHTML();
         }, handleInputDelay);
       }
     });
 
-    $('.irs-min').text('250 words');
+    function numberWithCommas(x) {
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
 
-    $('#curr-month').text(timeLocal.toFormat('LLLL'));
-    $('#myselect').on('change', function() {
-      $('#curr-month').text(timeLocal.toFormat('LLLL'));
-      $d3_change();
-    });
-
-    setTimeout(function() {
-      $d3_change();
-      setSlideHandlerHTML();
-    }, 300);
+    setTimeout($d3_change, 300);
 
   });
-
-  function checkTime(i) {
-    if (i < 10) {
-      i = '0' + i;
-    }
-    return i;
-  }
 
   function startTime(selectedZone) {
     var mySelectVal = $('#myselect').val();
     var today = DateTime.local().setZone(mySelectVal);
-    var h = today.hour;
-    var m = today.minute;
-    var s = today.second;
-    // add a zero in front of numbers<10
-    m = checkTime(m);
-    s = checkTime(s);
 
-    if (mySelectVal === 'local') {
-      document.getElementById('time').innerHTML = h + ':' + m + ':' + s;
-    } else {
-      document.getElementById('time').innerHTML = h + ':' + m + ':' + s;
-    }
+    document.getElementById('time').innerHTML = '<span class="time-1">' + today.toFormat('h:mm a') +
+        '</span><span class="time-2">' + today.toFormat('d LLL yyyy') + '</span>';
+
     t = setTimeout(function() {
       startTime();
     }, 500);
@@ -658,6 +731,9 @@
   $(document).ready(function() {
 
     $('.mcalc-inputs, .mcalc-range').fadeIn(10); //my animation when calculator shows
+    $('#myselect').select2({
+      width: '100%',
+    }).change();
 
   });
 </script>

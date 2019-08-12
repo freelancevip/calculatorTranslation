@@ -1,0 +1,858 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Tabs</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.0/css/ion.rangeSlider.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/fullcalendar.min.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/css/select2.min.css" rel="stylesheet"/>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+    }
+
+    .ui-tabs-vertical {
+        width: 100%;
+    }
+
+    .ui-tabs.ui-widget.ui-widget-content {
+        border: 0;
+    }
+
+    .ui-tabs .ui-tabs-nav {
+        padding: 0;
+        float: none;
+        width: 100%;
+        background: transparent;
+        border: 0;
+    }
+
+    .ui-tabs-nav li {
+
+    }
+
+    .ui-tabs-vertical .ui-tabs-nav li {
+        clear: left;
+        width: 100%;
+        border-bottom-width: 1px !important;
+        border-right-width: 0 !important;
+        margin: 0 -1px .2em 0;
+    }
+
+    .ui-tabs .ui-tabs-nav li a {
+        display: block;
+        width: 100%;
+    }
+
+    .ui-tabs-vertical .ui-tabs-nav li.ui-tabs-active {
+        padding-bottom: 0;
+        padding-right: .1em;
+        border-right-width: 1px;
+    }
+
+    .ui-tabs-vertical .ui-tabs-nav li.ui-tabs-active a {
+        width: calc(100% + 4px);
+        background: #fff;
+    }
+
+    .ui-tabs-vertical .ui-tabs-panel {
+        padding: 1em;
+        float: right;
+        width: 40em;
+    }
+
+    .ui-tabs .ui-tabs-nav li {
+        background: #61af6a;
+        font-size: 16px;
+    }
+
+    .ui-tabs .ui-tabs-nav li a {
+        outline: none;
+    }
+
+    .ui-tabs .ui-tabs-nav li.ui-tabs-active {
+        background: #fff;
+        border-color: #7dca86;
+        border-width: 2px !important;
+        border-bottom-width: 0;
+        margin-bottom: -2px;
+        border-bottom-color: #fff;
+    }
+
+    .ui-tabs.ui-tabs-vertical .ui-tabs-nav li.ui-tabs-active {
+        margin-bottom: .2em;
+        border-right-width: 0 !important;
+        border-bottom-color: #7dca86;
+    }
+
+    .ui-tabs .ui-tabs-nav li.ui-tabs-active a {
+        color: #000;
+    }
+
+    .ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited, a.ui-button, a:link.ui-button, a:visited.ui-button, .ui-button {
+        color: #fff;
+    }
+
+    .ui-tabs .ui-tabs-panel {
+        border: 2px solid #7dca86;
+    }
+
+    .ui-tabs-vertical .ui-tabs-panel {
+        width: calc(100% - 150px);
+    }
+
+    .ui-tabs-vertical .ui-tabs-nav {
+        padding: 0;
+        float: left;
+        width: 150px;
+        background: transparent;
+        border: 0;
+    }
+
+    @media (max-width: 490px) {
+        .ui-tabs .ui-tabs-nav .ui-tabs-anchor {
+            padding: 10px;
+            font-size: 12px;
+        }
+    }
+</style>
+<style type="text/css">
+    .scc-time {
+        max-width: 450px;
+        margin: 0 auto 20px;
+        display: flex;
+        text-align: center;
+    }
+
+    .scc-time__t {
+        border: 2px solid orange;
+        padding: 15px;
+        background: #fff;
+    }
+
+    .scc-time__zone, .scc-time__cur {
+        flex: 50%;
+        line-height: 2;
+        border-bottom: 2px solid orange;
+        padding: 13px 15px;
+        background: #fff;
+        font-size: 16px;
+    }
+
+    .scc-time__zone {
+        border: 2px solid orange;
+    }
+
+    .scc-time__cur {
+        border: 2px solid orange;
+        border-left: none;
+        text-transform: lowercase;
+    }
+
+    @media (max-width: 465px) {
+        .scc-time {
+            display: block;
+        }
+
+        .scc-time__zone, .scc-time__cur {
+            width: auto;
+            float: none;
+        }
+
+        .scc-time__cur {
+            border-left: 2px solid orange;
+            border-top: 0;
+        }
+    }
+
+    input, textarea {
+        outline: none !important;
+        box-shadow: none !important;
+    }
+
+    input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+        opacity: 1;
+    }
+
+    input:-moz-placeholder, textarea:-moz-placeholder {
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+        opacity: 1;
+    }
+
+    input::-moz-placeholder, textarea::-moz-placeholder {
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+        opacity: 1;
+    }
+
+    input:-ms-input-placeholder, textarea:-ms-input-placeholder {
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+        opacity: 1;
+    }
+
+    input:focus::-webkit-input-placeholder, textarea:focus::-webkit-input-placeholder {
+        color: transparent !important;
+    }
+
+    input:focus:-moz-placeholder, textarea:focus:-moz-placeholder {
+        color: transparent !important;
+    }
+
+    input:focus::-moz-placeholder, textarea:focus::-moz-placeholder {
+        color: transparent !important;
+    }
+
+    input:focus:-ms-input-placeholder, textarea:focus:-ms-input-placeholder {
+        color: transparent !important;
+    }
+
+    input:focus {
+        box-shadow: none;
+    }
+
+    textarea {
+        -ms-overflow-style: none;
+    }
+
+    .irs--big .irs-bar {
+        background-color: transparent;
+        border: 1px solid transparent;
+        background: linear-gradient(to bottom, white 0%, #1e7fc1 100%);
+    }
+
+    .irs--big .irs-handle {
+        border: 1px solid #1e7fc1 !important;
+        background-color: transparent;
+        background: linear-gradient(to bottom, white 0%, #1e7fc1 100%) !important;
+        box-shadow: none;
+        cursor: pointer;
+    }
+
+    .irs--big .irs-grid-text {
+        color: grey;
+    }
+
+    .irs--big .irs-from, .irs--big .irs-to, .irs--big .irs-single {
+        background: #1e7fc1 !important;
+    }
+
+    #mcalc {
+        overflow: hidden;
+        margin: 0 auto;
+        padding: 0;
+        font-family: 'Roboto', sans-serif;
+        max-width: 1800px;
+        font-size: 24px;
+        line-height: 1.4;
+        color: #000;
+        background: #ffffff;
+    }
+
+    #mcalc * {
+        box-sizing: border-box;
+    }
+
+    .mcalc-range {
+        position: relative;
+        margin: 0 0 20px;
+    }
+
+    .irs--big .irs-single {
+        font-size: 2em;
+        top: -15px;
+        cursor: pointer;
+    }
+
+    .mcalc-inputs {
+        position: relative;
+        left: 50%;
+        -webkit-transform: translate(-50%);
+        transform: translate(-50%);
+        display: inline-block;
+        margin: 0 auto 0 0;
+        max-width: 100%;
+        text-align: center;
+    }
+
+    .mcalc-inputs > div {
+        display: -ms-flexbox;
+        display: flex;
+        border-bottom: 2px solid #dce6ec;
+        border-radius: 7px;
+        background: #1e7fc1;
+        overflow: hidden;
+    }
+
+    .mcalc-inputs > div > div:nth-child(1) {
+        padding: 3px;
+        color: #dce6ec;
+    }
+
+    .mcalc-inputs > div > div:nth-child(2) {
+        width: auto;
+        margin: 3px 3px 1px 1px;
+        color: #dce6ec;
+    }
+
+    .mcalc-inputs input {
+        display: block;
+        padding: 0;
+        width: 100px;
+        border: 0;
+        border-radius: 3px;
+        font-size: 1em;
+        text-align: center;
+    }
+
+    .irs--big .irs-single {
+        top: -10px;
+        font-size: 1.5em;
+    }
+
+    @media (max-width: 930px) {
+        #mcalc {
+            font-size: 18px;
+        }
+    }
+
+    @media (max-width: 650px) {
+        #mcalc {
+            /*padding: 15px;*/
+        }
+
+        .irs--big .irs-single {
+            font-size: 1em;
+            top: 0;
+        }
+    }
+
+    #row-time-zone {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .ease-in i {
+        animation-timing-function: ease-in;
+    }
+
+    #scc-calendar {
+        background: #fff;
+    }
+
+    .irs--square .irs-single {
+        display: none;
+        padding: 0;
+        top: -33px;
+        color: #000;
+        background: #fff;
+        border: 1px solid #000;
+        z-index: 11;
+        font-size: 20px;
+        margin-left: -54px;
+    }
+
+    .fc-past {
+        background: #bcc6cc;
+    }
+
+    .fc-sat, .fc-sun, .fc-today.fc-sat, .fc-today.fc-sun {
+        background-color: #ffb7b0 !important;
+        border-color: #ddd;
+    }
+
+    .fc .fc-row .fc-content-skeleton table, .fc .fc-row .fc-content-skeleton td, .fc .fc-row .fc-helper-skeleton td {
+        border-color: inherit;
+    }
+
+    .fc-title {
+        padding: 1px;
+        display: block;
+    }
+
+    .fc-today {
+        background-color: transparent !important;
+    }
+
+    .fc-today .fc-day-number {
+        border: 2px solid red;
+        border-radius: 30px;
+        width: 30px;
+        text-align: center;
+    }
+
+    .fc-ltr .fc-basic-view .fc-day-top .fc-day-number {
+        float: left;
+    }
+
+    .fc-body .fc-row {
+        min-height: 129px !important;
+    }
+
+    @media (min-width: 931px) {
+        .fc-body .fc-row {
+            min-height: 149px !important;
+        }
+    }
+
+    @media (max-width: 650px) {
+        .fc-body .fc-row {
+            min-height: 100px !important;
+        }
+    }
+
+    .fc-row .fc-content-skeleton {
+        padding-bottom: 0;
+    }
+
+    @media (min-width: 485px) {
+        .fc-title {
+            padding: 6px;
+        }
+    }
+
+    .fc-day-number {
+        font-size: 16px;
+        font-weight: bold;
+        border: 2px solid transparent;
+    }
+
+    #select2-myselect-container {
+        font-size: 15px;
+    }
+
+    @media (max-width: 650px) {
+        .fc-content {
+            font-size: 10px;
+        }
+
+    }
+
+    .scc-input {
+        display: flex;
+        max-width: 150px;
+        margin: auto;
+        background: #fff;
+        text-align: center;
+        font-size: 24px;
+    }
+
+    .scc-input input {
+        width: 100%;
+        border: 0;
+        height: 34px;
+        line-height: 34px;
+        padding: 0 10px;
+        font-size: 36px;
+        position: relative;
+        top: 2px;
+        text-align: center;
+    }
+
+    @media (max-width: 768px) {
+        .scc-input {
+            font-size: 14px;
+        }
+
+        .scc-input input {
+            font-size: 22px;
+        }
+    }
+
+    .scc-input__col {
+        flex: 50%;
+        padding: 5px;
+        border: 2px solid #000;
+    }
+
+    .scc-input .scc-input__col:last-child {
+        border-left: 0;
+        display: none;
+    }
+
+    tr:first-child > td > .fc-day-grid-event {
+        margin: 0;
+    }
+
+    .event-time {
+        text-transform: lowercase;
+    }
+
+    .event-price {
+        color: darkgreen;
+    }
+
+    .fc-day-grid-event {
+        margin: 0;
+    }
+
+    .time-2 {
+        margin-left: 17px;
+    }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.0/js/ion.rangeSlider.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/luxon@1.3.3/build/global/luxon.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.5.1/fullcalendar.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script>
+  jQuery(document).ready(function($) {
+
+    var calculatorInit = function() {
+
+      // singleton
+      if (this.counter === undefined) {
+        this.counter = 0;
+      }
+      this.counter++;
+      if (this.counter > 1) {
+        return;
+      }
+
+      var DateTime = luxon.DateTime;
+      var formatter = new Intl.NumberFormat('en');
+
+      var timeLocal = DateTime.local(); // Local time
+      var timeKiev = DateTime.local().setZone('Europe/Kiev'); // Local time
+      var events;
+      var sliderOptions = {
+        min: 250,
+        max: 25000,
+        from: 2500,
+      };
+
+      jQuery(document).ready(function($) {
+
+        function calendar() {
+          $('#scc-calendar').fullCalendar({
+            defaultView: 'week',
+            header: false,
+            firstDay: 1,
+            timeZone: 'local',
+            contentHeight: 'auto',
+            eventOrder: 'description',
+            views: {
+              week: {
+                type: 'basic',
+                duration: {weeks: 3},
+              },
+            },
+            eventRender: function(event, element, view) {
+              var title = element.find('.fc-title');
+              var html = '<div class="event-title">' + event.title + '</div>';
+              html += '<div class="event-time">' + event.time + '</div>';
+              html += '<div class="event-price-word">' + event.pricePerWord + '</div>';
+              html += '<div class="event-price">$ ' + event.price + '</div>';
+              title.html(html);
+            },
+          });
+        }
+
+        calendar();
+
+        function workTime_Calculating(companyLocalTime, workTime, localTime, recognizeWichRow) {
+
+          var DateDeadline = companyLocalTime;
+
+          if (workTime > 0) { 	// checks if there have time to work
+            if (companyLocalTime.hour < 8) { // when order in night
+              workTime += 8 - companyLocalTime.hour;
+
+            }
+
+            if (companyLocalTime.hour > 7 && companyLocalTime.hour < 17 && workTime <= 6) { // First situation for 6 hours !!! latel do <= after function minut +- hour
+              var myDiffTime = DateDeadline.plus({hours: workTime}) - localTime;
+              return DateDeadline.plus({hours: workTime}).setZone(localTime.zoneName);
+            }
+
+            if (workTime <= 216) { // general operation for less time work
+              var tempTime = 23 - companyLocalTime.hour; //how much of the time project will be done after taking project on work
+              DateDeadline = DateDeadline.plus({hours: tempTime});
+              workTime -= tempTime; // work to done next day
+
+              if (workTime > 0) {
+                DateDeadline = DateDeadline.plus({hours: 9});
+                return workTime_Calculating(DateDeadline, workTime, localTime, recognizeWichRow);
+              } else {
+                DateDeadline = DateDeadline.plus({hours: workTime});
+                var myDiffTime = DateDeadline - localTime;
+                return DateDeadline.setZone(localTime.zoneName);
+              }
+
+              return DateDeadline.setZone(localTime.zoneName);
+
+            } else {
+              return companyLocalTime.plus({hours: workTime}); // if not at work today going to the next day of 08:00 but not from 10 how most of work days starts
+            }
+          } else {
+            return DateDeadline.setZone(localTime.zoneName);
+          }
+
+          if (workTime < 1) {
+            return workTime_Calculating(DateDeadline, workTime, localTime, recognizeWichRow);
+          }
+
+          return companyLocalTime.plus({hours: 1});
+        }
+
+        /**
+         * function to round of a time
+         * @param timeToRound
+         * @returns {*}
+         */
+        function roundoffTime(timeToRound) {
+          if (timeToRound.minute < 30) {
+            return timeToRound.set({minute: 0});
+          } else {
+            if (timeToRound.minute > 30) {
+              return timeToRound.plus({minute: 60 - timeToRound.minute});
+            }
+          }
+        }
+
+        var $d3 = $('.js-range-slider'); // js io slider
+
+        /**
+         * when slider moves
+         */
+        function $d3_change() {
+
+          var data = $d3.data('ionRangeSlider').result.from;
+
+          if (data >= 250 && data <= 500) {
+            //x = 6; y = 12; z = 48;
+            x = 6;
+            y = 16;
+            z = 48;
+          } else if (data >= 501 && data <= 2500) {
+            x = 12;
+            y = 28;
+            z = 72;
+            //x = 12; y = 24; z = 72;
+          } else if (data >= 2501 && data <= 12500) {
+            x = 24;
+            y = 48;
+            z = 96;
+          } else if (data >= 12501 && data <= 15000) {
+            x = 24;
+            y = 48;
+            z = 120;
+          } else if (data >= 15001 && data <= 17500) {
+            x = 24;
+            y = 72;
+            z = 144;
+          } else if (data >= 17501 && data <= 18750) {
+            x = 36;
+            y = 72;
+            z = 168;
+          } else if (data >= 18751 && data <= 22500) {
+            x = 48;
+            y = 96;
+            z = 192;
+          } else if (data >= 22501 && data <= 25000) {
+            x = 48;
+            y = 120;
+            z = 216;
+          } else {
+            return;
+          }
+          //function to change the time use
+
+          var price_1 = (data * 0.10).toFixed();
+          var price_2 = (data * 0.05).toFixed();
+          var price_3 = (data * 0.03).toFixed();
+
+          var dateSuperFast;
+          var dateFast;
+          var dateEconomy;
+
+          var mySelectedZone;
+          if (myselect.value === '') {
+            mySelectedZone = DateTime.local();
+          } else {
+            mySelectedZone = timeLocal.setZone(myselect.value); // London time
+          }
+
+          dateSuperFast = workTime_Calculating(roundoffTime(timeKiev), x, roundoffTime(mySelectedZone), 1);
+          dateFast = workTime_Calculating(roundoffTime(timeKiev), y, roundoffTime(mySelectedZone), 2);
+          dateEconomy = workTime_Calculating(roundoffTime(timeKiev), z, roundoffTime(mySelectedZone), 3);
+
+          events = [
+            {
+              title: 'Super Fast',
+              time: dateSuperFast.toFormat('ha'),
+              price: formatter.format(price_1),
+              pricePerWord: '$0,10/word',
+              start: dateSuperFast.toISODate(),
+              color: '#fa7167',
+              description: 1,
+            }, {
+              title: 'Fast',
+              time: dateFast.toFormat('ha'),
+              price: formatter.format(price_2),
+              pricePerWord: '$0,05/word',
+              start: dateFast.toISODate(),
+              color: 'orange',
+              description: 2,
+            }, {
+              title: 'Economy',
+              time: dateEconomy.toFormat('ha'),
+              price: formatter.format(price_3),
+              pricePerWord: '$0,02/word',
+              start: dateEconomy.toISODate(),
+              color: 'grey',
+              description: 3,
+            },
+          ];
+
+          // Update events
+          $('#scc-calendar').fullCalendar('removeEvents');
+          $('#scc-calendar').fullCalendar('addEventSource', events);
+
+        }
+
+        $(document).on('change', '#myselect', function(e) {
+          var tz = $('#myselect').val();
+          startTime(tz);
+          $d3_change();
+          var today = DateTime.local().setZone(tz);
+          $('#scc-calendar').fullCalendar('option', 'now', today.toISO());
+        });
+
+        $(document).on('click', '#scc-input', function(e) {
+          $(this).select();
+        });
+
+        $(document).on('change', '#scc-input', function(e) {
+          var val = +this.value.replace(/,/, '');
+
+          $d3.data('ionRangeSlider').update({
+            from: val,
+          });
+        });
+
+        function changeSliderInput(data) {
+          $('#scc-input').val(numberWithCommas(data.from));
+        }
+
+        changeSliderInput({from: sliderOptions.from});
+
+        $d3.ionRangeSlider({
+          min: sliderOptions.min,
+          max: sliderOptions.max,
+          from: sliderOptions.from,
+          type: 'single',
+          grid: 'true',
+          hide_min_max: true,
+          force_edges: false,
+          skin: 'square',
+          grid_num: 3,
+          prettify_separator: ',',
+          onFinish: function(data) {
+            $d3_change();
+          },
+          onUpdate: function(data) {
+            $d3_change();
+            changeSliderInput(data);
+          },
+          onChange: function(data) {
+            $d3_change();
+            changeSliderInput(data);
+          },
+
+        });
+
+        var handleInputInterval;
+        var handleInputDelay = 5 * 1000;
+
+        $(document).on('keyup', '#scc-input', function(e) {
+          e.preventDefault();
+          var val = $(this).val().replace(/,/, '');
+          clearInterval(handleInputInterval);
+          if (val < sliderOptions.min) {
+            val = sliderOptions.min;
+          }
+          if (val > sliderOptions.max) {
+            val = sliderOptions.max;
+          }
+          if (e.keyCode === 13) {
+            $d3.data('ionRangeSlider').update({
+              from: val,
+            });
+          } else {
+            handleInputInterval = setTimeout(function() {
+              $d3.data('ionRangeSlider').update({
+                from: val,
+              });
+            }, handleInputDelay);
+          }
+        });
+
+        function numberWithCommas(x) {
+          return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        }
+
+        setTimeout($d3_change, 300);
+
+      });
+
+      function startTime(selectedZone) {
+        var mySelectVal = $('#myselect').val();
+        var today = DateTime.local().setZone(mySelectVal);
+
+        document.getElementById('time').innerHTML = '<span class="time-1">' + today.toFormat('h:mm a') +
+            '</span><span class="time-2">' + today.toFormat('d LLL yyyy') + '</span>';
+
+        t = setTimeout(function() {
+          startTime();
+        }, 500);
+      }
+
+      $(document).ready(function() {
+
+        $('.mcalc-inputs, .mcalc-range').fadeIn(10); //my animation when calculator shows
+        $('#myselect').select2({
+          width: '100%',
+        }).change();
+
+      });
+
+    };
+
+    var $tabs = $('#tabs').tabs({
+      show: 'slideDown',
+      activate: function(event, ui) {
+        if (ui.newTab.attr('aria-controls') === 'tabs-3') {
+          calculatorInit();
+        }
+      },
+    });
+
+    if ($(window).width() > 768) {
+      $tabs.addClass('ui-tabs-vertical ui-helper-clearfix');
+      $('#tabs li').removeClass('ui-corner-top').addClass('ui-corner-left');
+    }
+
+    $(window).on('resize', function() {
+      if ($(window).width() <= 768) {
+        $('#tabs').removeClass('ui-tabs-vertical');
+        $('#tabs li').addClass('ui-corner-top').addClass('ui-corner-left');
+      } else {
+        $('#tabs').addClass('ui-tabs-vertical');
+        $('#tabs li').removeClass('ui-corner-top').addClass('ui-corner-left');
+      }
+    });
+  });
+</script>
