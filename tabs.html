@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.0/css/ion.rangeSlider.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/fullcalendar.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/css/select2.min.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" rel="stylesheet"/>
     <style>
         body {
             margin: 0;
@@ -23,8 +24,11 @@
             border: 0;
         }
 
-        .ui-tabs .ui-tabs-nav {
+        #mcalc .ui-tabs .ui-tabs-nav {
             padding: 0;
+        }
+
+        .ui-tabs .ui-tabs-nav {
             float: none;
             width: 100%;
             background: transparent;
@@ -79,7 +83,7 @@
             border-color: #7dca86;
             border-width: 2px !important;
             border-bottom-width: 0;
-            margin-bottom: -2px;
+            margin-bottom: -3px;
             border-bottom-color: #fff;
         }
 
@@ -89,8 +93,12 @@
             border-bottom-color: #7dca86;
         }
 
-        .ui-tabs .ui-tabs-nav li.ui-tabs-active a {
+        #mcalc .ui-tabs .ui-tabs-nav li.ui-tabs-active a {
             color: #000;
+        }
+
+        #mcalc li.ui-tabs-tab a {
+            color: #fff;
         }
 
         .ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited, a.ui-button, a:link.ui-button, a:visited.ui-button, .ui-button {
@@ -121,50 +129,24 @@
         }
     </style>
     <style type="text/css">
-        .scc-time {
-            max-width: 450px;
-            margin: 0 auto 20px;
-            display: flex;
-            text-align: center;
-        }
-
-        .scc-time__t {
-            border: 2px solid orange;
-            padding: 15px;
-            background: #fff;
-        }
-
         .scc-time__zone, .scc-time__cur {
-            flex: 50%;
-            line-height: 2;
-            border-bottom: 2px solid orange;
-            padding: 13px 15px;
+            padding: 5px 0 0;
             background: #fff;
             font-size: 16px;
         }
 
-        .scc-time__zone {
-            border: 2px solid orange;
-        }
-
         .scc-time__cur {
-            border: 2px solid orange;
             border-left: none;
             text-transform: lowercase;
         }
 
         @media (max-width: 465px) {
-            .scc-time {
-                display: block;
-            }
-
             .scc-time__zone, .scc-time__cur {
                 width: auto;
                 float: none;
             }
 
             .scc-time__cur {
-                border-left: 2px solid orange;
                 border-top: 0;
             }
         }
@@ -249,6 +231,7 @@
         }
 
         #mcalc {
+            position: relative;
             overflow: hidden;
             margin: 0 auto;
             padding: 0;
@@ -273,17 +256,6 @@
             font-size: 2em;
             top: -15px;
             cursor: pointer;
-        }
-
-        .mcalc-inputs {
-            position: relative;
-            left: 50%;
-            -webkit-transform: translate(-50%);
-            transform: translate(-50%);
-            display: inline-block;
-            margin: 0 auto 0 0;
-            max-width: 100%;
-            text-align: center;
         }
 
         .mcalc-inputs > div {
@@ -338,13 +310,6 @@
             }
         }
 
-        #row-time-zone {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-        }
-
         .ease-in i {
             animation-timing-function: ease-in;
         }
@@ -375,12 +340,13 @@
         }
 
         .fc .fc-row .fc-content-skeleton table, .fc .fc-row .fc-content-skeleton td, .fc .fc-row .fc-helper-skeleton td {
-            border-color: inherit;
+            border-color: #ddd;
         }
 
         .fc-title {
             padding: 1px;
             display: block;
+            color: #fff;
         }
 
         .fc-today {
@@ -442,8 +408,6 @@
         }
 
         .scc-input {
-            display: flex;
-            max-width: 150px;
             margin: auto;
             background: #fff;
             text-align: center;
@@ -451,15 +415,13 @@
         }
 
         .scc-input input {
-            width: 100%;
-            border: 0;
-            height: 34px;
-            line-height: 34px;
-            padding: 0 10px;
             font-size: 36px;
-            position: relative;
-            top: 2px;
             text-align: center;
+            border: 2px solid #000;
+            width: 150px;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 10px;
         }
 
         @media (max-width: 768px) {
@@ -472,17 +434,6 @@
             }
         }
 
-        .scc-input__col {
-            flex: 50%;
-            padding: 5px;
-            border: 2px solid #000;
-        }
-
-        .scc-input .scc-input__col:last-child {
-            border-left: 0;
-            display: none;
-        }
-
         tr:first-child > td > .fc-day-grid-event {
             margin: 0;
         }
@@ -492,72 +443,667 @@
         }
 
         .event-price {
-            color: darkgreen;
+            color: #fff;
+            background: #23b14d;
+            margin: 0 -6px -6px;
+            padding: 4px 6px 5px;
+            text-align: center;
+        }
+
+        td.fc-event-container a {
+            border: 0;
+            padding: 0;
+            border-radius: 0;
         }
 
         .fc-day-grid-event {
             margin: 0;
         }
 
+        .select2-results__options {
+            overflow-x: hidden;
+        }
+
         .time-2 {
             margin-left: 17px;
+            text-transform: none;
+        }
+
+        .calendar-nav {
+            position: relative;
+        }
+
+        .calendar-nav__words {
+            text-align: center;
+        }
+
+        .calendar-nav__timezone {
+            position: absolute;
+            right: 0;
+            top: -9px;
+        }
+
+        @media (max-width: 625px) {
+            .calendar-nav__timezone {
+                max-width: 199px;
+                text-align: center;
+                margin: 0 auto 20px;
+                position: static;
+            }
+        }
+
+        .clear:after {
+            display: table;
+            content: "";
+            clear: both;
+        }
+
+        .popup-buttons {
+            margin-bottom: 10px;
+            padding: 5px;
+        }
+
+        .terms-conditions, .popup-youtube {
+            padding: 10px;
+            font-size: 14px;
+            z-index: 1;
+        }
+
+        .terms-conditions {
+            background: #fff;
+            float: right;
+            color: #000!important;
+            text-decoration: none;
+        }
+
+        .popup-buttons .popup-youtube {
+            background: #ed1c22;
+            float: left;
+            color: #fff!important;
+            text-decoration: none;
+        }
+
+        .popup-youtube:hover {
+            background: #c40d00;
+        }
+
+        .terms-conditions:hover {
+            text-decoration: underline!important;
+        }
+
+        @media (min-width: 786px) {
+
+            .popup-youtube {
+                position: absolute;
+                top: 50%;
+                left: 28px;
+            }
+
+            .terms-conditions {
+                position: absolute;
+                bottom: 0;
+            }
+
         }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script src="https://code.jquery.com/jquery-migrate-1.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.0/js/ion.rangeSlider.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/luxon@1.3.3/build/global/luxon.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.5.1/fullcalendar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+    <script>
+      jQuery(document).ready(function($) {
+
+        var calculatorInit = function() {
+
+          // singleton
+          if (this.counter === undefined) {
+            this.counter = 0;
+          }
+          this.counter++;
+          if (this.counter > 1) {
+            return;
+          }
+
+          var DateTime = luxon.DateTime;
+          var formatter = new Intl.NumberFormat('en');
+
+          var timeLocal = DateTime.local(); // Local time
+          var timeKiev = DateTime.local().setZone('Europe/Kiev'); // Local time
+          var events;
+          var sliderOptions = {
+            min: 250,
+            max: 25000,
+            from: 2500,
+          };
+
+          jQuery(document).ready(function($) {
+
+            function calendar() {
+              $('#scc-calendar').fullCalendar({
+                defaultView: 'week',
+                header: false,
+                firstDay: 1,
+                timeZone: 'local',
+                contentHeight: 'auto',
+                eventOrder: 'description',
+                views: {
+                  week: {
+                    type: 'basic',
+                    duration: {weeks: 3},
+                  },
+                },
+                eventRender: function(event, element, view) {
+                  var title = element.find('.fc-title');
+                  var html = '<div class="event-title">' + event.title + '</div>';
+                  html += '<div class="event-time">' + event.time + '</div>';
+                  html += '<div class="event-price-word">' + event.pricePerWord + '</div>';
+                  html += '<div class="event-price">$ ' + event.price + '</div>';
+                  title.html(html);
+                },
+              });
+            }
+
+            calendar();
+
+            function workTime_Calculating(companyLocalTime, workTime, localTime, recognizeWichRow) {
+
+              var DateDeadline = companyLocalTime;
+
+              if (workTime > 0) { 	// checks if there have time to work
+                if (companyLocalTime.hour < 8) { // when order in night
+                  workTime += 8 - companyLocalTime.hour;
+
+                }
+
+                if (companyLocalTime.hour > 7 && companyLocalTime.hour < 17 && workTime <= 6) { // First situation for 6 hours !!! latel do <= after function minut +- hour
+                  var myDiffTime = DateDeadline.plus({hours: workTime}) - localTime;
+                  return DateDeadline.plus({hours: workTime}).setZone(localTime.zoneName);
+                }
+
+                if (workTime <= 216) { // general operation for less time work
+                  var tempTime = 23 - companyLocalTime.hour; //how much of the time project will be done after taking project on work
+                  DateDeadline = DateDeadline.plus({hours: tempTime});
+                  workTime -= tempTime; // work to done next day
+
+                  if (workTime > 0) {
+                    DateDeadline = DateDeadline.plus({hours: 9});
+                    return workTime_Calculating(DateDeadline, workTime, localTime, recognizeWichRow);
+                  } else {
+                    DateDeadline = DateDeadline.plus({hours: workTime});
+                    var myDiffTime = DateDeadline - localTime;
+                    return DateDeadline.setZone(localTime.zoneName);
+                  }
+
+                  return DateDeadline.setZone(localTime.zoneName);
+
+                } else {
+                  return companyLocalTime.plus({hours: workTime}); // if not at work today going to the next day of 08:00 but not from 10 how most of work days starts
+                }
+              } else {
+                return DateDeadline.setZone(localTime.zoneName);
+              }
+
+              if (workTime < 1) {
+                return workTime_Calculating(DateDeadline, workTime, localTime, recognizeWichRow);
+              }
+
+              return companyLocalTime.plus({hours: 1});
+            }
+
+            /**
+             * function to round of a time
+             * @param timeToRound
+             * @returns {*}
+             */
+            function roundoffTime(timeToRound) {
+              if (timeToRound.minute < 30) {
+                return timeToRound.set({minute: 0});
+              } else {
+                if (timeToRound.minute > 30) {
+                  return timeToRound.plus({minute: 60 - timeToRound.minute});
+                }
+              }
+            }
+
+            var $d3 = $('.js-range-slider'); // js io slider
+
+            /**
+             * when slider moves
+             */
+            function $d3_change() {
+
+              var data = $d3.data('ionRangeSlider').result.from;
+
+              if (data >= 250 && data <= 500) {
+                //x = 6; y = 12; z = 48;
+                x = 6;
+                y = 16;
+                z = 48;
+              } else if (data >= 501 && data <= 2500) {
+                x = 12;
+                y = 28;
+                z = 72;
+                //x = 12; y = 24; z = 72;
+              } else if (data >= 2501 && data <= 12500) {
+                x = 24;
+                y = 48;
+                z = 96;
+              } else if (data >= 12501 && data <= 15000) {
+                x = 24;
+                y = 48;
+                z = 120;
+              } else if (data >= 15001 && data <= 17500) {
+                x = 24;
+                y = 72;
+                z = 144;
+              } else if (data >= 17501 && data <= 18750) {
+                x = 36;
+                y = 72;
+                z = 168;
+              } else if (data >= 18751 && data <= 22500) {
+                x = 48;
+                y = 96;
+                z = 179; // було 192
+              } else if (data >= 22501 && data <= 25000) {
+                x = 48;
+                y = 120;
+                z = 195; //тут змінив шоб залазило в квадрат якщо на неділю попадає. було 216
+              } else {
+                return;
+              }
+              //function to change the time use
+
+              var price_1 = (data * 0.10).toFixed();
+              var price_2 = (data * 0.05).toFixed();
+              var price_3 = (data * 0.03).toFixed();
+
+              var dateSuperFast;
+              var dateFast;
+              var dateEconomy;
+
+              var mySelectedZone;
+              if (myselect.value === '') {
+                mySelectedZone = DateTime.local();
+              } else {
+                mySelectedZone = timeLocal.setZone(myselect.value); // London time
+              }
+
+              dateSuperFast = workTime_Calculating(roundoffTime(timeKiev), x, roundoffTime(mySelectedZone), 1);
+              dateFast = workTime_Calculating(roundoffTime(timeKiev), y, roundoffTime(mySelectedZone), 2);
+              dateEconomy = workTime_Calculating(roundoffTime(timeKiev), z, roundoffTime(mySelectedZone), 3);
+
+              events = [
+                {
+                  title: 'Super Fast',
+                  time: dateSuperFast.toFormat('ha'),
+                  price: formatter.format(price_1),
+                  pricePerWord: '$0,10/word',
+                  start: dateSuperFast.toISODate(),
+                  color: '#fa7167',
+                  description: 1,
+                }, {
+                  title: 'Fast',
+                  time: dateFast.toFormat('ha'),
+                  price: formatter.format(price_2),
+                  pricePerWord: '$0,05/word',
+                  start: dateFast.toISODate(),
+                  color: 'orange',
+                  description: 2,
+                }, {
+                  title: 'Economy',
+                  time: dateEconomy.toFormat('ha'),
+                  price: formatter.format(price_3),
+                  pricePerWord: '$0,02/word',
+                  start: dateEconomy.toISODate(),
+                  color: 'grey',
+                  description: 3,
+                },
+              ];
+
+              // Update events
+              $('#scc-calendar').fullCalendar('removeEvents');
+              $('#scc-calendar').fullCalendar('addEventSource', events);
+
+            }
+
+            $(document).on('change', '#myselect', function(e) {
+              var tz = $('#myselect').val();
+              startTime(tz);
+              $d3_change();
+              var today = DateTime.local().setZone(tz);
+              $('#scc-calendar').fullCalendar('option', 'now', today.toISO());
+            });
+
+            $(document).on('click', '#scc-input', function(e) {
+              $(this).select();
+            });
+
+            $(document).on('change', '#scc-input', function(e) {
+              var val = +this.value.replace(/,/, '');
+
+              $d3.data('ionRangeSlider').update({
+                from: val,
+              });
+            });
+
+            function changeSliderInput(data) {
+              $('#scc-input').val(numberWithCommas(data.from));
+            }
+
+            changeSliderInput({from: sliderOptions.from});
+
+            function my_prettify(n) {
+              if (n == 12625) {
+                n -= 125;
+              }
+              return numberWithCommas(n);
+            }
+
+            $d3.ionRangeSlider({
+              min: sliderOptions.min,
+              max: sliderOptions.max,
+              from: sliderOptions.from,
+              type: 'single',
+              grid: 'true',
+
+              hide_min_max: true,
+              force_edges: false,
+              skin: 'square',
+              grid_num: 2,
+              prettify: my_prettify,
+              grid_snap: false,
+
+              onFinish: function(data) {
+                $d3_change();
+              },
+              onUpdate: function(data) {
+                $d3_change();
+                changeSliderInput(data);
+              },
+              onChange: function(data) {
+                $d3_change();
+                changeSliderInput(data);
+              },
+
+            });
+
+            var handleInputInterval;
+            var handleInputDelay = 5 * 1000;
+
+            $(document).on('keyup', '#scc-input', function(e) {
+              e.preventDefault();
+              var val = $(this).val().replace(/,/, '');
+              clearInterval(handleInputInterval);
+              if (val < sliderOptions.min) {
+                val = sliderOptions.min;
+              }
+              if (val > sliderOptions.max) {
+                val = sliderOptions.max;
+              }
+              if (e.keyCode === 13) {
+                $d3.data('ionRangeSlider').update({
+                  from: val,
+                });
+              } else {
+                handleInputInterval = setTimeout(function() {
+                  $d3.data('ionRangeSlider').update({
+                    from: val,
+                  });
+                }, handleInputDelay);
+              }
+            });
+
+            function numberWithCommas(x) {
+              return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            }
+
+            setTimeout($d3_change, 300);
+
+          });
+
+          function startTime(selectedZone) {
+            var mySelectVal = $('#myselect').val();
+            var today = DateTime.local().setZone(mySelectVal);
+
+            document.getElementById('time').innerHTML = '<span class="time-1">' + today.toFormat('h:mm a') +
+                '</span><span class="time-2">' + today.toFormat('d LLL yyyy') + '</span>';
+
+            t = setTimeout(function() {
+              startTime();
+            }, 500);
+          }
+
+          $(document).ready(function() {
+
+            $('.mcalc-inputs, .mcalc-range').fadeIn(10); //my animation when calculator shows
+            $('#myselect').select2({
+              width: '100%',
+
+            }).change();
+
+          });
+
+        };
+
+        var $tabs = $('#tabs').tabs({
+
+          create: function(event, ui) {
+            calculatorInit();
+          },
+        });
+
+        if ($(window).width() > 768) {
+          $tabs.addClass('ui-tabs-vertical ui-helper-clearfix');
+          $('#tabs li').removeClass('ui-corner-top').addClass('ui-corner-left');
+        }
+
+        $(window).on('resize', function() {
+          if ($(window).width() <= 768) {
+            $('#tabs').removeClass('ui-tabs-vertical');
+            $('#tabs li').addClass('ui-corner-top').addClass('ui-corner-left');
+          } else {
+            $('#tabs').addClass('ui-tabs-vertical');
+            $('#tabs li').removeClass('ui-corner-top').addClass('ui-corner-left');
+          }
+        });
+      });
+    </script>
 </head>
 <body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.0/js/ion.rangeSlider.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/luxon@1.3.3/build/global/luxon.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.5.1/fullcalendar.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <div id="mcalc">
+    <div class="popup-buttons clear">
+        <a href="#" class="popup-youtube" data-fancybox="popup-video" data-src="https://www.youtube.com/watch?v=_sI_Ps7JSEk" data-touch="false">What we do</a>
+        <a href="#" class="terms-conditions" data-fancybox="terms-conditions" data-src="#terms-conditions" data-touch="false">Terms & conditions</a>
+        <div id="terms-conditions" style="display: none">
+            <h1>terms & conditions</h1>
+            Link to download: <a href="#">Download</a>
+        </div>
+    </div>
     <div id="tabs">
         <ul>
-            <li><a href="#tabs-1">Video company</a></li>
-            <li><a href="#tabs-2">Main info</a></li>
-            <li><a href="#tabs-3">Calculator</a></li>
-            <li><a href="#tabs-4">How to pay</a></li>
+            <li><a href="#tabs-1">PRICE & Deadline</a></li>
+            <li><a href="#tabs-2">ABOUT US</a></li>
+            <li><a href="#tabs-3">HOW TO PAY</a></li>
         </ul>
         <div id="tabs-1">
-            <h2>Content heading 1</h2>
-            <p>Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus. Aenean tempor ullamcorper leo. Vivamus sed magna quis ligula eleifend adipiscing. Duis orci. Aliquam sodales tortor vitae ipsum. Aliquam nulla. Duis aliquam molestie erat. Ut et mauris vel pede varius sollicitudin. Sed ut dolor nec orci tincidunt interdum. Phasellus ipsum. Nunc tristique tempus lectus.</p>
+            <div class="calendar-nav">
+                <div class="calendar-nav__timezone">
+                    <div class="scc-time__zone">
+                        <select id="myselect" title>
+                            <option value="local">Your time Zone</option>
+                            <option value="Europe/London">Europe/London</option>
+                            <option value="America/New_York">America/New_York</option>
+                            <option value="Asia/Qatar">Asia/Qatar</option>
+                            <option value="Africa/Abidjan">Africa/Abidjan</option>
+                            <option value="Pacific/Guam">Pacific/Guam</option>
+                            <!-- hidden but searchyble  -->
+                            <option value="Africa/Cairo">Africa/Cairo</option>
+                            <option value="Africa/Dakar">Africa/Dakar</option>
+                            <option value="Africa/Tunis">Africa/Tunis</option>
+                            <option value="America/Argentina/Buenos_Aires">America/Argentina/Buenos_Aires</option>
+                            <option value="America/Argentina/San_Luis">America/Argentina/San_Luis</option>
+                            <option value="America/Barbados">America/Barbados</option>
+                            <option value="America/Bogota">America/Bogota</option>
+                            <option value="America/Chicago">America/Chicago</option>
+                            <option value="America/Costa_Rica">America/Costa_Rica</option>
+                            <option value="America/Detroit">America/Detroit</option>
+                            <option value="America/Denver">America/Denver</option>
+                            <option value="America/Grenada">America/Grenada</option>
+                            <option value="America/Guatemala">America/Guatemala</option>
+                            <option value="America/Havana">America/Havana</option>
+                            <option value="America/Indiana/Marengo">America/Indiana/Marengo</option>
+                            <option value="America/Jamaica">America/Jamaica</option>
+                            <option value="America/Kentucky/Louisville">America/Kentucky/Louisville</option>
+                            <option value="America/Los_Angeles">America/Los_Angeles</option>
+                            <option value="America/Mexico_City">America/Mexico_City</option>
+                            <option value="America/St_Lucia">America/St_Lucia</option>
+                            <option value="America/Toronto">America/Toronto</option>
+                            <option value="America/Vancouver">America/Vancouver</option>
+                            <option value="America/Winnipeg">America/Winnipeg</option>
+                            <option value="Asia/Baku">Asia/Baku</option>
+                            <option value="Asia/Dubai">Asia/Dubai</option>
+                            <option value="Asia/Hong_Kong">Asia/Hong_Kong</option>
+                            <option value="Asia/Istanbul">Asia/Istanbul</option>
+                            <option value="Asia/Jerusalem">Asia/Jerusalem</option>
+                            <option value="Asia/Krasnoyarsk">Asia/Krasnoyarsk</option>
+                            <option value="Asia/Macau">Asia/Macau</option>
+                            <option value="Asia/Manila"> Asia/Manila</option>
+                            <option value="Asia/Novosibirsk">Asia/Novosibirsk</option>
+                            <option value="Asia/Qatar">Asia/Qatar</option>
+                            <option value="Asia/Shanghai"> Asia/Shanghai</option>
+                            <option value="Asia/Singapore">Asia/Singapore</option>
+                            <option value="Asia/Tokyo">Asia/Tokyo</option>
+                            <option value="Asia/Urumqi">Asia/Urumqi</option>
+                            <option value="Atlantic/Azores">Atlantic/Azores</option>
+                            <option value="Atlantic/Madeira">Atlantic/Madeira</option>
+                            <option value="Australia/Sydney">Australia/Sydney</option>
+                            <option value="Brazil/East">Brazil/East</option>
+                            <option value="Brazil/West">Brazil/West</option>
+                            <option value="Canada/Saskatchewan">Canada/Saskatchewan</option>
+                            <option value="Chile/Continental">Chile/Continental</option>
+                            <option value="Etc/GMT">Etc/GMT</option>
+                            <option value="Etc/GMT+0">Etc/GMT+0</option>
+                            <option value="Etc/GMT+1">Etc/GMT+1</option>
+                            <option value="Etc/GMT+2">Etc/GMT+2</option>
+                            <option value="Etc/GMT+3">Etc/GMT+3</option>
+                            <option value="Etc/GMT+4">Etc/GMT+4</option>
+                            <option value="Etc/GMT+5">Etc/GMT+5</option>
+                            <option value="Etc/GMT+6">Etc/GMT+6</option>
+                            <option value="Etc/GMT+7">Etc/GMT+7</option>
+                            <option value="Etc/GMT+8">Etc/GMT+8</option>
+                            <option value="Etc/GMT+9">Etc/GMT+9</option>
+                            <option value="Etc/GMT+10">Etc/GMT+10</option>
+                            <option value="Etc/GMT+11">Etc/GMT+11</option>
+                            <option value="Etc/GMT+12">Etc/GMT+12</option>
+                            <option value="Etc/GMT-0">Etc/GMT-0</option>
+                            <option value="Etc/GMT-1">Etc/GMT-1</option>
+                            <option value="Etc/GMT-2">Etc/GMT-2</option>
+                            <option value="Etc/GMT-3">Etc/GMT-3</option>
+                            <option value="Etc/GMT-4">Etc/GMT-4</option>
+                            <option value="Etc/GMT-5">Etc/GMT-5</option>
+                            <option value="Etc/GMT-6">Etc/GMT-6</option>
+                            <option value="Etc/GMT-7">Etc/GMT-7</option>
+                            <option value="Etc/GMT-8">Etc/GMT-8</option>
+                            <option value="Etc/GMT-9">Etc/GMT-9</option>
+                            <option value="Etc/GMT-10">Etc/GMT-10</option>
+                            <option value="Etc/GMT-11">Etc/GMT-11</option>
+                            <option value="Etc/GMT-12">Etc/GMT-12</option>
+                            <option value="Etc/GMT-13">Etc/GMT-13</option>
+                            <option value="Etc/GMT-14">Etc/GMT-14</option>
+                            <option value="Etc/Greenwich">Etc/Greenwich</option>
+                            <option value="Etc/UTC">Etc/UTC</option>
+                            <option value="Etc/Zulu">Etc/Zulu</option>
+                            <option value="Europe/Amsterdam">Europe/Amsterdam</option>
+                            <option value="Europe/Andorra">Europe/Andorra</option>
+                            <option value="Europe/Astrakhan">Europe/Astrakhan</option>
+                            <option value="Europe/Berlin">Europe/Berlin</option>
+                            <option value="Europe/Bratislava"> Europe/Bratislava</option>
+                            <option value="Europe/Brussels"> Europe/Brussels</option>
+                            <option value="Europe/Bucharest">Europe/Bucharest</option>
+                            <option value="Europe/Budapest"> Europe/Budapest</option>
+                            <option value="Europe/Busingen"> Europe/Busingen</option>
+                            <option value="Europe/Copenhagen"> Europe/Copenhagen</option>
+                            <option value="Europe/Dublin">Europe/Dublin</option>
+                            <option value="Europe/Gibraltar">Europe/Gibraltar</option>
+                            <option value="Europe/Helsinki"> Europe/Helsinki</option>
+                            <option value="Europe/Isle_of_Man">Europe/Isle_of_Man</option>
+                            <option value="Europe/Istanbul"> Europe/Istanbul</option>
+                            <option value="Europe/Jersey">Europe/Jersey</option>
+                            <option value="Europe/Kaliningrad"> Europe/Kaliningrad</option>
+                            <option value="Europe/Kiev"> Europe/Kiev</option>
+                            <option value="Europe/Lisbon"> Europe/Lisbon</option>
+                            <option value="Europe/Luxembourg"> Europe/Luxembourg</option>
+                            <option value="Europe/Madrid"> Europe/Madrid</option>
+                            <option value="Europe/Malta">Europe/Malta</option>
+                            <option value="Europe/Mariehamn"> Europe/Mariehamn</option>
+                            <option value="Europe/Minsk">Europe/Minsk</option>
+                            <option value="Europe/Monaco">Europe/Monaco</option>
+                            <option value="Europe/Moscow">Europe/Moscow</option>
+                            <option value="Asia/Nicosia"> Asia/Nicosia</option>
+                            <option value="Europe/Oslo"> Europe/Oslo</option>
+                            <option value="Europe/Paris"> Europe/Paris</option>
+                            <option value="Europe/Podgorica">Europe/Podgorica</option>
+                            <option value="Europe/Prague">Europe/Prague</option>
+                            <option value="Europe/Riga"> Europe/Riga</option>
+                            <option value="Europe/Rome">Europe/Rome</option>
+                            <option value="Europe/Samara">Europe/Samara</option>
+                            <option value="Europe/San_Marino"> Europe/San_Marino</option>
+                            <option value="Europe/Saratov">Europe/Saratov</option>
+                            <option value="Europe/Skopje">Europe/Skopje</option>
+                            <option value="Europe/Sofia"> Europe/Sofia</option>
+                            <option value="Europe/Stockholm">Europe/Stockholm</option>
+                            <option value="Europe/Uzhgorod">Europe/Uzhgorod</option>
+                            <option value="Europe/Vatican">Europe/Vatican</option>
+                            <option value="Europe/Vienna">Europe/Vienna</option>
+                            <option value="Europe/Vilnius">Europe/Vilnius</option>
+                            <option value="Europe/Warsaw">Europe/Warsaw</option>
+                            <option value="Europe/Zagreb">Europe/Zagreb</option>
+                            <option value="Europe/Zurich">Europe/Zurich</option>
+                            <option value="Indian/Chagos">Indian/Chagos</option>
+                            <option value="Indian/Christmas">Indian/Christmas</option>
+                            <option value="Indian/Cocos">Indian/Cocos</option>
+                            <option value="Indian/Maldives">Indian/Maldives</option>
+                            <option value="Indian/Mauritius">Indian/Mauritius</option>
+                            <option value="Indian/Reunion">Indian/Reunion</option>
+                            <option value="Pacific/Apia"> Pacific/Apia</option>
+                            <option value="Pacific/Auckland">Pacific/Auckland</option>
+                            <option value="Pacific/Bougainville">Pacific/Bougainville</option>
+                            <option value="Pacific/Chatham"> Pacific/Chatham</option>
+                            <option value="Pacific/Easter"> Pacific/Easter</option>
+                            <option value="Pacific/Galapagos"> Pacific/Galapagos</option>
+                            <option value="Pacific/Honolulu">Pacific/Honolulu</option>
+                            <option value="Pacific/Kiritimati">Pacific/Kiritimati</option>
+                            <option value="Pacific/Kosrae"> Pacific/Kosrae</option>
+                            <option value="Pacific/Pago_Pago"> Pacific/Pago_Pago</option>
+                            <option value="Pacific/Pohnpei">Pacific/Pohnpei</option>
+                            <option value="Pacific/Tahiti"> Pacific/Tahiti</option>
+                            <option value="Pacific/Wake"> Pacific/Wake</option>
+                        </select>
+                    </div>
+                    <div class="scc-time__cur"><span id="time">00:00 pm</span></div>
+                </div>
+                <div class="calendar-nav__words">
+                    <div class="scc-input">
+                        <input type="text" id="scc-input"><span>words</span>
+                    </div>
+                </div>
+            </div>
+            <div class="mcalc-range" style="display:none">
+                <input type="text" class="js-range-slider" name="my_range" value="">
+            </div>
+            <div id="scc-calendar"></div>
         </div>
         <div id="tabs-2">
             <h2>Content heading 2</h2>
             <p>Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie turpis. Sed fringilla, massa eget luctus malesuada, metus eros molestie lectus, ut tempus eros massa ut dolor. Aenean aliquet fringilla sem. Suspendisse sed ligula in ligula suscipit aliquam. Praesent in eros vestibulum mi adipiscing adipiscing. Morbi facilisis. Curabitur ornare consequat nunc. Aenean vel metus. Ut posuere viverra nulla. Aliquam erat volutpat. Pellentesque convallis. Maecenas feugiat, tellus pellentesque pretium posuere, felis lorem euismod felis, eu ornare leo nisi vel felis. Mauris consectetur tortor et purus.</p>
         </div>
         <div id="tabs-3">
-            <div class="scc-time">
-                <div class="scc-time__zone">
-                    <select id="myselect" title>
-                        <option value="local">Your time Zone</option>
-                        <option value="Europe/London">Europe/London</option>
-                        <option value="America/New_York">America/New_York</option>
-                        <option value="Asia/Qatar">Asia/Qatar</option>
-                        <option value="Africa/Abidjan">Africa/Abidjan</option>
-                        <option value="Pacific/Guam">Pacific/Guam</option>
-                    </select>
-                </div>
-                <div class="scc-time__cur"><span id="time">00:00 pm</span></div>
-            </div>
-            <div class="scc-input">
-                <div class="scc-input__col">
-                    <input type="text" id="scc-input">
-                </div>
-                <div class="scc-input__col">
-                </div>
-            </div>
-            <div class="mcalc-range" style="display:none">
-                <center>words</center>
-                <input type="text" class="js-range-slider" name="my_range" value="">
-            </div>
-            <div id="scc-calendar"></div>
-        </div>
-        <div id="tabs-4">
-            <h2>Content heading 2</h2>
-            <p>Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie turpis. Sed fringilla, massa eget luctus malesuada, metus eros molestie lectus, ut tempus eros massa ut dolor. Aenean aliquet fringilla sem. Suspendisse sed ligula in ligula suscipit aliquam. Praesent in eros vestibulum mi adipiscing adipiscing. Morbi facilisis. Curabitur ornare consequat nunc. Aenean vel metus. Ut posuere viverra nulla. Aliquam erat volutpat. Pellentesque convallis. Maecenas feugiat, tellus pellentesque pretium posuere, felis lorem euismod felis, eu ornare leo nisi vel felis. Mauris consectetur tortor et purus.</p>
+            <h2>Content heading 1</h2>
+            <p>Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus. Aenean tempor ullamcorper leo. Vivamus sed magna quis ligula eleifend adipiscing. Duis orci. Aliquam sodales tortor vitae ipsum. Aliquam nulla. Duis aliquam molestie erat. Ut et mauris vel pede varius sollicitudin. Sed ut dolor nec orci tincidunt interdum. Phasellus ipsum. Nunc tristique tempus lectus.</p>
         </div>
     </div>
 </div>
@@ -885,13 +1431,25 @@
 
     };
 
+    function hideTabAbsLinks() {
+      if ($(window).width() > 768) {
+        $('.popup-youtube, .terms-conditions').hide();
+      }
+    }
+
+    function showTabAbsLinks() {
+      if ($(window).width() > 768) {
+        $('.popup-youtube, .terms-conditions').show();
+      }
+    }
+
     var $tabs = $('#tabs').tabs({
       show: 'slideDown',
-      activate: function(event, ui) {
-        if (ui.newTab.attr('aria-controls') === 'tabs-3') {
-          calculatorInit();
-        }
+      create: function(event, ui) {
+        calculatorInit();
       },
+      beforeActivate: hideTabAbsLinks,
+      activate: showTabAbsLinks,
     });
 
     if ($(window).width() > 768) {
@@ -908,6 +1466,7 @@
         $('#tabs li').removeClass('ui-corner-top').addClass('ui-corner-left');
       }
     });
+
   });
 </script>
 </body>
